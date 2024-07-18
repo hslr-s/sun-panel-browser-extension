@@ -11,32 +11,6 @@ interface HomePageConfig {
 const ms = createDiscreteApi(['message'])
 const isSetHomePageUrl = ref(true)
 
-// function ping(url: string, attempts: number): Promise<number> {
-//   let totalLatency = 0
-//   let completed = 0
-
-//   return new Promise((resolve, reject) => {
-//     for (let i = 0; i < attempts; i++) {
-//       const start = Date.now()
-
-//       fetch(url, { method: 'HEAD', mode: 'no-cors' })
-//         .then(() => {
-//           const end = Date.now()
-//           totalLatency += (end - start)
-//           completed++
-
-//           if (completed === attempts) {
-//             const averageLatency = totalLatency / attempts
-//             resolve(averageLatency)
-//           }
-//         })
-//         .catch((err) => {
-//           reject(err)
-//         })
-//     }
-//   })
-// }
-
 function ping(url: string, attempts: number, timeout: number): Promise<number> {
   let totalLatency = 0
   let successfulAttempts = 0

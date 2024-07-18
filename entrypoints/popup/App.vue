@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import Home from '@/components/Home.vue';
+import Home from '@/components/Home.vue'
 </script>
 
 <template>
@@ -13,6 +13,6 @@ import Home from '@/components/Home.vue';
   margin: 20px;
   min-width: 300px;
   min-height: 400px;
+  max-width: 500px;
 }
-
 </style>

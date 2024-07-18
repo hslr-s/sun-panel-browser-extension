@@ -4,7 +4,7 @@ import { NAlert, NButton, NCard, NForm, NFormItem, NH1, NH2, NInput, NTag, creat
 import type { FormInst } from 'naive-ui'
 
 interface OpenAPIConfig {
-  url: string
+  host: string
   token: string
 }
 
@@ -15,7 +15,7 @@ interface HomePageConfig {
 
 const ms = createDiscreteApi(['message'])
 const openApiFormValue = ref<OpenAPIConfig>({
-  url: '',
+  host: '',
   token: '',
 })
 
@@ -25,7 +25,7 @@ const homePageFormValue = ref<HomePageConfig>({
 })
 
 const openApiRules = {
-  url: {
+  host: {
     required: true,
     message: '必填项',
     trigger: ['input', 'blur'],
@@ -154,8 +154,8 @@ function handleSaveOpenAPIConfig(e: MouseEvent) {
       </div>
 
       <NForm ref="openApiFormRef" :label-width="80" :model="openApiFormValue" :rules="openApiRules" size="small">
-        <NFormItem label="地址" path="url">
-          <NInput v-model:value="openApiFormValue.url" />
+        <NFormItem label="地址" path="host">
+          <NInput v-model:value="openApiFormValue.host" />
         </NFormItem>
         <NFormItem label="token" path="token">
           <NInput v-model:value="openApiFormValue.token" type="password" />
