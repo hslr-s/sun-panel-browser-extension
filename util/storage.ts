@@ -1,3 +1,9 @@
+import { storage } from "wxt/storage";
+
+export const sessionStartTime =
+  storage.defineItem<number>("session:start-time");
+
+
 function setLocalStorage(key: string, value: any): void {
     localStorage.setItem(key, JSON.stringify(value));
 }
