@@ -16,7 +16,6 @@ web-ext.config.ts
 
 # Editor directories and files
 .history
-.vscode/*
 !.vscode/extensions.json
 .idea
 .DS_Store
