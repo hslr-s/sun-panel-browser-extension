@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { NAlert, NButton, NCard, NForm, NFormItem, NH1, NH2, NInput, NTag, createDiscreteApi, useMessage } from 'naive-ui'
+import { NAlert, NButton, NCard, NForm, NFormItem, NH1, NH2, NInput, NTag, createDiscreteApi } from 'naive-ui'
 import type { FormInst } from 'naive-ui'
 
 interface OpenAPIConfig {
@@ -110,14 +110,14 @@ function handleSaveOpenAPIConfig(e: MouseEvent) {
 <template>
   <div class="mx-auto max-w-[600px]">
     <NH2>Sun-Panel 设置</NH2>
-    <NCard style="border-radius: 1rem" embedded>
+    <NCard style="border-radius: 1rem">
       <template #header>
         首页地址
       </template>
 
       <div class="my-2">
         <NAlert type="info" closable size="small">
-          当点击新标签页的时候，会自动跳转到首页地址，当主要地址链接不通的使用会使用备用地址。如果您有内网和公网两个地址，推荐主要地址填写为内网地址。
+          当点击新标签页的时候，会自动跳转到首页地址，优先使用主要地址，如果主要地址链接不通的使用会使用备用地址。当您有内网和公网两个地址，推荐主要地址填写为内网地址。
         </NAlert>
       </div>
       <NForm ref="homePageFormRef" :label-width="80" :model="homePageFormValue" :rules="homePageRules" size="small">
@@ -139,7 +139,7 @@ function handleSaveOpenAPIConfig(e: MouseEvent) {
       </NForm>
     </NCard>
 
-    <NCard style="border-radius: 1rem;margin-top: 10px;" embedded>
+    <NCard style="border-radius: 1rem;margin-top: 10px;">
       <template #header>
         OpenAPI
       </template>

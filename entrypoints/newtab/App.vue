@@ -1,18 +1,170 @@
 <script lang="ts" setup>
-import Home from '@/components/Home.vue';
+import { NButton, NCard, createDiscreteApi } from 'naive-ui'
+import backgroundImg from '@/assets/defaultBackground.webp'
+
+console.log(backgroundImg)
+interface HomePageConfig {
+  url: string
+  spareUrl: string
+}
+
+const ms = createDiscreteApi(['message'])
+const isSetHomePageUrl = ref(true)
+
+// function ping(url: string, attempts: number): Promise<number> {
+//   let totalLatency = 0
+//   let completed = 0
+
+//   return new Promise((resolve, reject) => {
+//     for (let i = 0; i < attempts; i++) {
+//       const start = Date.now()
+
+//       fetch(url, { method: 'HEAD', mode: 'no-cors' })
+//         .then(() => {
+//           const end = Date.now()
+//           totalLatency += (end - start)
+//           completed++
+
+//           if (completed === attempts) {
+//             const averageLatency = totalLatency / attempts
+//             resolve(averageLatency)
+//           }
+//         })
+//         .catch((err) => {
+//           reject(err)
+//         })
+//     }
+//   })
+// }
+
+function ping(url: string, attempts: number, timeout: number): Promise<number> {
+  let totalLatency = 0
+  let successfulAttempts = 0
+
+  const attemptPing = (): Promise<number> => {
+    return new Promise((resolve, reject) => {
+      const start = Date.now()
+
+      const fetchPromise = fetch(url, { method: 'HEAD', mode: 'no-cors' })
+        .then(() => {
+          const end = Date.now()
+          resolve(end - start)
+        })
+        .catch((err) => {
+          reject(err)
+        })
+
+      const timeoutPromise = new Promise<number>((_, reject) =>
+        setTimeout(() => reject(new Error('Timeout')), timeout),
+      )
+
+      Promise.race([fetchPromise, timeoutPromise])
+        .then(latency => resolve(latency as number))
+        .catch(err => reject(err))
+    })
+  }
+
+  return new Promise((resolve, reject) => {
+    const pingAttempt = (i: number) => {
+      if (i < attempts) {
+        attemptPing()
+          .then((latency) => {
+            totalLatency += latency
+            successfulAttempts++
+            pingAttempt(i + 1)
+          })
+          .catch(() => {
+            // 失败的情况下继续尝试
+            pingAttempt(i + 1)
+          })
+      }
+      else {
+        if (successfulAttempts > 0) {
+          const averageLatency = totalLatency / successfulAttempts
+          resolve(averageLatency)
+        }
+        else {
+          reject(new Error('All ping attempts failed'))
+        }
+      }
+    }
+
+    pingAttempt(0)
+  })
+}
+
+onMounted(async () => {
+  let homePageConfig: HomePageConfig = {
+    url: '',
+    spareUrl: '',
+  }
+
+  // console.log(666)
+  await storage.getItem<HomePageConfig>('local:homePageConfig').then((cfg) => {
+    if (!cfg) {
+      ms.message.warning('请先配置首页地址')
+      isSetHomePageUrl.value = false
+      return
+    }
+
+    homePageConfig = cfg
+  })
+
+  if (!isSetHomePageUrl.value) {
+    return
+  }
+  console.log(6666)
+
+  // console.log(homePageConfig.url)
+  await ping(homePageConfig.url, 2, 200).then((msv) => {
+    location.href = homePageConfig.url
+    ms.message.success(`${homePageConfig.url} - ${msv}`)
+  }).catch((err) => {
+    location.href = homePageConfig.spareUrl
+    console.error(err)
+    // ms.message.warning(`主要地址无法平通${homePageConfig.url}`)
+  })
+})
+
+function handleGoSettingPage() {
+  location.href = 'settings.html'
+}
 </script>
 
 <template>
-  <div class="root">
-    <Home msg="Sun-Panel" />
+  <div class="background" :style="{ backgroundImage: `url(${backgroundImg})` }">
+    <div v-if="!isSetHomePageUrl">
+      <div style="max-width: 500px;margin:50px auto">
+        <NCard>
+          <div class="flex justify-center">
+            <NButton type="success" @click="handleGoSettingPage">
+              还未设置首页地址，请点击前往设置
+            </NButton>
+          </div>
+        </NCard>
+      </div>
+    </div>
   </div>
 </template>
 
 <style scoped>
-.root{
-  margin: 20px;
-  min-width: 300px;
-  min-height: 400px;
+.html body{
+  overflow: hidden;
 }
 
+.background {
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-color: #18181b;
+}
+
+@media (prefers-color-scheme: light) {
+ .background {
+    color: #213547;
+    background-color: #ffffff;
+  }
+}
 </style>
