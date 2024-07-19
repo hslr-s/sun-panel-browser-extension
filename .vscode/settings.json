@@ -72,5 +72,8 @@
     "scss",
     "pcss",
     "postcss"
+  ],
+  "i18n-ally.localesPaths": [
+    "../../../../my_code/sun-panel/sun-panel-browser-extension/locales"
   ]
 }
