@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { NAlert, NButton, NCard, NForm, NFormItem, NH1, NH2, NInput, NSelect, NTag, createDiscreteApi } from 'naive-ui'
-import type { FormInst } from 'naive-ui'
+import type { FormInst, FormItemRule } from 'naive-ui'
 import type { Language, Theme } from '@/store/modules/app/helper'
 import { useAppStore } from '@/store'
+import { isValidHttpUrl } from '@/util/verifyRules'
 
 interface OpenAPIConfig {
   host: string
@@ -39,11 +40,20 @@ const languageOptions: { label: string, key: Language, value: Language }[] = [
 ]
 
 const openApiRules = {
-  host: {
-    required: true,
-    message: '必填项',
-    trigger: ['input', 'blur'],
-  },
+  host: [
+    {
+      required: true,
+      message: '必填项',
+      trigger: ['blur'],
+    },
+    {
+      trigger: ['blur'],
+      message: '不是一个有效的url地址',
+      validator(rule: FormItemRule, value: string) {
+        return isValidHttpUrl(value)
+      },
+    },
+  ],
   token: {
     required: true,
     message: '必填项',
@@ -52,14 +62,26 @@ const openApiRules = {
 }
 
 const homePageRules = {
-  url: {
-    required: true,
-    message: '必填项',
-    trigger: ['input', 'blur'],
-  },
+  url: [
+    {
+      required: true,
+      message: '必填项',
+      trigger: ['input', 'blur'],
+    },
+    {
+      trigger: ['blur'],
+      message: '不是一个有效的url地址',
+      validator(rule: FormItemRule, value: string) {
+        return isValidHttpUrl(value)
+      },
+    },
+  ],
   spareUrl: {
-    message: '必填项',
     trigger: ['input', 'blur'],
+    message: '不是一个有效的url地址',
+    validator(rule: FormItemRule, value: string) {
+      return value === '' || isValidHttpUrl(value)
+    },
   },
 }
 

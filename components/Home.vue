@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { NAlert, NButton, NCard, NDivider, NH3, NH4, NH5, NImage, NInput, NScrollbar, createDiscreteApi } from 'naive-ui'
-import { Refresh as RefreshIcon, SettingsSharp as SettingsIcon } from '@vicons/ionicons5'
+import type { FormInst, FormItemRule } from 'naive-ui'
+import { NAlert, NButton, NCard, NForm, NFormItem, NImage, NInput, createDiscreteApi } from 'naive-ui'
+import { Refresh as RefreshIcon } from '@vicons/ionicons5'
 import * as cheerio from 'cheerio'
+import { isValidHttpUrl } from '@/util/verifyRules'
 
 defineProps({
   msg: String,
@@ -18,6 +20,7 @@ interface ImageListItem {
   checked: boolean
 }
 
+const formRef = ref<FormInst | null>(null)
 const ms = createDiscreteApi(['message'])
 const currentUrl = ref('')
 const webSiteIcons = ref<ImageListItem[]>([])
@@ -30,7 +33,52 @@ const formValue = ref({
   url: '',
   lanUrl: '',
   iconUrl: '',
+  description: '',
 })
+
+const rules = {
+  url: [
+    {
+      required: true,
+      message: '必填项',
+      trigger: ['input', 'blur'],
+    },
+    {
+      trigger: ['input', 'blur'],
+      message: '不是一个有效的url地址',
+      validator(rule: FormItemRule, value: string) {
+        return isValidHttpUrl(value)
+      },
+    },
+  ],
+
+  title: [
+    {
+      required: true,
+      message: '必填项',
+      trigger: ['input', 'blur'],
+    },
+    {
+      max: 20,
+      message: '长度不得超过20个字符',
+      trigger: ['input', 'blur'],
+    },
+  ],
+
+  iconUrl: {
+    required: true,
+    message: '必选',
+    trigger: ['input', 'blur'],
+  },
+
+  lanUrl: {
+    message: '不是一个有效的url地址',
+    trigger: ['input', 'blur'],
+    validator(rule: FormItemRule, value: string) {
+      return value === '' || isValidHttpUrl(value)
+    },
+  },
+}
 
 function handleSetting() {
   browser.tabs.create({ url: 'settings.html' })
@@ -42,7 +90,7 @@ async function getUrl() {
   await browser.tabs.query({ active: true, currentWindow: true }).then((tabs) => {
     const currentTab = tabs[0]
     currentUrl.value = currentTab.url || ''
-    console.log(`当前页面地址是：${currentUrl.value}`)
+    // console.log(`当前页面地址是：${currentUrl.value}`)
   })
 }
 
@@ -149,7 +197,7 @@ function removeTrailingSlash(str: string) {
   return str.replace(/\/+$/, '')
 }
 
-function handleSave() {
+function submit() {
   console.log(formValue.value)
 
   // 没有找到图标使用默认图标
@@ -169,13 +217,28 @@ function handleSave() {
         ms.message.success('保存成功')
       }
       else {
-        ms.message.error('保存失败')
+        if (data.code === 1000) {
+          ms.message.error('保存失败，Token 过期或无效')
+        }
       }
     })
     .catch((error) => {
       console.error('Error:', error)
       ms.message.error('保存失败')
     })
+}
+
+function handleSave(e: MouseEvent) {
+  e.preventDefault()
+  formRef.value?.validate((errors) => {
+    if (!errors) {
+      submit()
+    }
+    else {
+      console.error(errors)
+      ms.message.error('保存失败，请检查表单是否有输入错误')
+    }
+  })
 }
 
 onMounted(() => {
@@ -211,11 +274,8 @@ onMounted(() => {
   </NAlert>
 
   <NCard style="border-radius: 1rem;margin-bottom: 20px;" size="small" embedded>
-    <div>
-      <div>
-        获取的图标：
-      </div>
-      <div class="mt-1">
+    <NForm ref="formRef" :label-width="80" :model="formValue" :rules="rules" size="small">
+      <NFormItem label="获取的图标" path="iconUrl">
         <NImage
           v-for="icon, index in webSiteIcons"
           :key="index" preview-disabled
@@ -225,58 +285,31 @@ onMounted(() => {
           :style="icon.checked ? 'border:2px #4EB4BC solid;' : 'border:1px #C1C6CC solid;'"
           @click="handleSelectIcon(icon)"
         />
-        <!-- <div>{{ icon }}</div> -->
-      </div>
-    </div>
+      </NFormItem>
 
-    <div class="mt-1">
-      <div>
-        标题：
-      </div>
-      <NInput
-        v-model:value="formValue.title" size="small"
-        :disabled="openApiConfig.host === '' || openApiConfig.token === ''"
-      />
-    </div>
+      <NFormItem label="标题" path="title">
+        <NInput
+          v-model:value="formValue.title" size="small"
+          :disabled="openApiConfig.host === '' || openApiConfig.token === ''"
+        />
+      </NFormItem>
 
-    <div class="mt-1">
-      <div>
-        描述信息：
-      </div>
-      <NInput
-        v-model:value="formValue.title" size="small"
-        :disabled="openApiConfig.host === '' || openApiConfig.token === ''"
-      />
-    </div>
+      <NFormItem label="描述信息" path="description">
+        <NInput v-model:value="formValue.description" />
+      </NFormItem>
 
-    <div class="mt-1">
-      <div>
-        地址：
-      </div>
-      <NInput
-        v-model:value="formValue.url" size="small"
-        :disabled="openApiConfig.host === '' || openApiConfig.token === ''"
-      />
-    </div>
+      <NFormItem label="地址" path="url">
+        <NInput v-model:value="formValue.url" />
+      </NFormItem>
 
-    <div class="mt-1">
-      <div>
-        内网地址：
-      </div>
-      <NInput
-        v-model:value="formValue.lanUrl" size="small"
-        :disabled="openApiConfig.host === '' || openApiConfig.token === ''"
-      />
-    </div>
+      <NFormItem label="内网地址" path="lanUrl">
+        <NInput v-model:value="formValue.lanUrl" />
+      </NFormItem>
 
-    <div class="mt-1">
-      <NButton
-        type="success" style="width: 100%;"
-        :disabled="openApiConfig.host === '' || openApiConfig.token === ''" @click="handleSave"
-      >
+      <NButton attr-type="button" size="small" type="success" style="width: 100%;" @click="handleSave">
         保存
       </NButton>
-    </div>
+    </NForm>
   </NCard>
 
   <!-- <div>{{ currentUrl }}</div> -->
