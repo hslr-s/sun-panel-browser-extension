@@ -10,6 +10,9 @@ const { themeOverrides } = useTheme()
 function handleSetting() {
   browser.tabs.create({ url: 'settings.html' })
 }
+
+const version = browser.runtime.getManifest().version
+const appName = browser.runtime.getManifest().name
 </script>
 
 <template>
@@ -19,7 +22,10 @@ function handleSetting() {
     <div class="root">
       <div class="header flex items-center">
         <div class="text-[#fff] text-xl font-bold">
-          Sun-Panel -BE
+          {{ appName }}
+          <span class="text-sm">
+            (v{{ version }})
+          </span>
         </div>
         <div class="ml-auto">
           <NButton size="small" @click="handleSetting">
