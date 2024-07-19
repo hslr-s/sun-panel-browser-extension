@@ -1,14 +1,32 @@
 <script lang="ts" setup>
-import { NAlert, NButton, NCard, NConfigProvider, NDivider, NH3, NH4, NH5, NImage, NInput, NScrollbar, createDiscreteApi } from 'naive-ui'
-import { Refresh as RefreshIcon, SettingsSharp as SettingsIcon } from '@vicons/ionicons5'
+import { NAlert, NButton, NCard, NConfigProvider, NScrollbar, createDiscreteApi } from 'naive-ui'
+import { HelpSharp as HelpIcon, SettingsSharp as SettingsIcon } from '@vicons/ionicons5'
 import Home from '@/components/Home.vue'
 import { useTheme } from '@/hooks/useTheme'
 import { useAppStore } from '@/store'
 
+const appStore = useAppStore()
 const { themeOverrides } = useTheme()
+const sortLinkHost = 'http://links.sun-panel.top'
 
 function handleSetting() {
   browser.tabs.create({ url: 'settings.html' })
+}
+
+function handleDocOpen() {
+  let url = `${sortLinkHost}/browser_plugin_doc_en`
+  if (appStore.language === 'zh-CN') {
+    url = `${sortLinkHost}/browser_plugin_doc_zh_cn`
+  }
+  browser.tabs.create({ url })
+}
+
+function handleUpdateLog() {
+  let url = `${sortLinkHost}/browser_plugin_update_log_en`
+  if (appStore.language === 'zh-CN') {
+    url = `${sortLinkHost}/browser_plugin_update_log_zh_cn`
+  }
+  browser.tabs.create({ url })
 }
 
 const version = browser.runtime.getManifest().version
@@ -23,12 +41,22 @@ const appName = browser.runtime.getManifest().name
       <div class="header flex items-center">
         <div class="text-[#fff] text-xl font-bold">
           {{ appName }}
-          <span class="text-sm">
+          <span
+            class="text-sm cursor-pointer text-[#00eafd] hover:text-[#000]"
+            title="更新日志&检查新版本"
+            @click="handleUpdateLog"
+          >
             (v{{ version }})
           </span>
         </div>
         <div class="ml-auto">
-          <NButton size="small" @click="handleSetting">
+          <NButton size="tiny" style="margin-right: 5px;" @click="handleDocOpen">
+            <template #icon>
+              <HelpIcon style="color: white;" />
+            </template>
+          </NButton>
+
+          <NButton size="tiny" @click="handleSetting">
             <template #icon>
               <SettingsIcon style="color: white;" />
             </template>
@@ -47,12 +75,12 @@ const appName = browser.runtime.getManifest().name
 
 <style scoped>
 .header{
-  padding:10px 20px;
+  padding:5px 20px;
   background-color: #4EB4BC;
 }
 
 .foot{
-  height: 5px;
+  height: 2px;
   background-color: #4EB4BC;
 }
 

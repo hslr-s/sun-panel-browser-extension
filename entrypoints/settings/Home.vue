@@ -48,7 +48,7 @@ const openApiRules = {
     },
     {
       trigger: ['blur'],
-      message: '不是一个有效的url地址',
+      message: '不是一个有效的HTTP地址',
       validator(rule: FormItemRule, value: string) {
         return isValidHttpUrl(value)
       },
@@ -70,7 +70,7 @@ const homePageRules = {
     },
     {
       trigger: ['blur'],
-      message: '不是一个有效的url地址',
+      message: '不是一个有效的HTTP地址',
       validator(rule: FormItemRule, value: string) {
         return isValidHttpUrl(value)
       },
@@ -78,7 +78,7 @@ const homePageRules = {
   ],
   spareUrl: {
     trigger: ['input', 'blur'],
-    message: '不是一个有效的url地址',
+    message: '不是一个有效的HTTP地址',
     validator(rule: FormItemRule, value: string) {
       return value === '' || isValidHttpUrl(value)
     },

@@ -47,7 +47,7 @@ const rules = {
     },
     {
       trigger: ['input', 'blur'],
-      message: '不是一个有效的url地址',
+      message: '不是一个有效的HTTP地址',
       validator(rule: FormItemRule, value: string) {
         return isValidHttpUrl(value)
       },
@@ -74,7 +74,7 @@ const rules = {
   },
 
   lanUrl: {
-    message: '不是一个有效的url地址',
+    message: '不是一个有效的HTTP地址',
     trigger: ['input', 'blur'],
     validator(rule: FormItemRule, value: string) {
       return value === '' || isValidHttpUrl(value)
@@ -112,20 +112,6 @@ function getIcoLinks(html: string): string[] {
 
   return links
 }
-
-// fetch('http://panel.nas.enianteam.com:8080/openapi/v1/item/create', {
-//   method: 'POST',
-//   headers: {
-//     'Content-Type': 'application/json',
-//   },
-//   body: JSON.stringify({
-//     key1: 'value1',
-//     key2: 'value2',
-//   }),
-// })
-//   .then(response => response.json())
-//   .then(data => console.log(data))
-//   .catch(error => console.error('Error:', error))
 
 async function fetchWebsiteSource(url: string) {
   try {
