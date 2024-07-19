@@ -87,7 +87,12 @@ onMounted(async () => {
   if (!isSetHomePageUrl.value) {
     return
   }
-  console.log(6666)
+
+  // 没有备用地址直接打开地址
+  if (homePageConfig.spareUrl === '') {
+    location.href = homePageConfig.url
+    return
+  }
 
   // console.log(homePageConfig.url)
   await ping(homePageConfig.url, 2, 200).then((msv) => {
