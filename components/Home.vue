@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { NAlert, NButton, NDivider, NH3, NH4, NH5, NImage, NInput, createDiscreteApi } from 'naive-ui'
+import { NAlert, NButton, NCard, NDivider, NH3, NH4, NH5, NImage, NInput, NScrollbar, createDiscreteApi } from 'naive-ui'
 import { Refresh as RefreshIcon, SettingsSharp as SettingsIcon } from '@vicons/ionicons5'
 import * as cheerio from 'cheerio'
 
@@ -189,20 +189,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="header flex items-center">
-    <h1 class="text-[#4EB4BC] text-xl font-bold">
-      {{ msg }}-BE
-    </h1>
-    <div class="ml-auto">
-      <NButton @click="handleSetting">
-        <template #icon>
-          <SettingsIcon />
-        </template>
-      </NButton>
-    </div>
-  </div>
-
-  <NH3>
+  <div class="my-2 text-lg font-bold text-zinc-700">
     <div class="flex items-center">
       <div class="mr-5">
         将本站添加到 Sun-Panel
@@ -214,75 +201,83 @@ onMounted(() => {
         </template>
       </NButton>
     </div>
-  </NH3>
+  </div>
 
-  <NDivider />
-
-  <NAlert v-if="openApiConfig.host === '' || openApiConfig.token === ''" type="error">
+  <NAlert v-if="openApiConfig.host === '' || openApiConfig.token === ''" type="error" class="my-2" size="small">
     请先配置OpenApi参数，再尝试添加
     <div class="text-[blue] cursor-pointer" @click="handleSetting">
       去设置
     </div>
   </NAlert>
 
-  <div class="mt-5">
-    <NH5>
-      获取的图标：
-    </NH5>
+  <NCard style="border-radius: 1rem;margin-bottom: 20px;" size="small" embedded>
     <div>
-      <NImage
-        v-for="icon, index in webSiteIcons"
-        :key="index" preview-disabled
-        :src="icon.iconUrl"
-        class="cursor-pointer"
-        style="width: 50px;height: 50px;border-radius: 5px;margin-right: 10px;padding:2px"
-        :style="icon.checked ? 'border:2px #4EB4BC solid;' : 'border:1px #C1C6CC solid;'"
-        @click="handleSelectIcon(icon)"
-      />
-      <!-- <div>{{ icon }}</div> -->
+      <div>
+        获取的图标：
+      </div>
+      <div class="mt-1">
+        <NImage
+          v-for="icon, index in webSiteIcons"
+          :key="index" preview-disabled
+          :src="icon.iconUrl"
+          class="cursor-pointer"
+          style="width: 50px;height: 50px;border-radius: 5px;margin-right: 10px;padding:2px;box-shadow:  0px 0px 5px gray;"
+          :style="icon.checked ? 'border:2px #4EB4BC solid;' : 'border:1px #C1C6CC solid;'"
+          @click="handleSelectIcon(icon)"
+        />
+        <!-- <div>{{ icon }}</div> -->
+      </div>
     </div>
-  </div>
 
-  <div class="mt-5">
-    <NH5>
-      标题：
-    </NH5>
-    <NInput
-      v-model:value="formValue.title" size="small"
-      :disabled="openApiConfig.host === '' || openApiConfig.token === ''"
-    />
-  </div>
+    <div class="mt-1">
+      <div>
+        标题：
+      </div>
+      <NInput
+        v-model:value="formValue.title" size="small"
+        :disabled="openApiConfig.host === '' || openApiConfig.token === ''"
+      />
+    </div>
 
-  <div class="mt-5">
-    <NH5>
-      地址：
-    </NH5>
-    <NInput
-      v-model:value="formValue.url" size="small"
-      :disabled="openApiConfig.host === '' || openApiConfig.token === ''"
-    />
-  </div>
+    <div class="mt-1">
+      <div>
+        描述信息：
+      </div>
+      <NInput
+        v-model:value="formValue.title" size="small"
+        :disabled="openApiConfig.host === '' || openApiConfig.token === ''"
+      />
+    </div>
 
-  <div class="mt-5">
-    <NH5>
-      内网地址：
-    </NH5>
-    <NInput
-      v-model:value="formValue.lanUrl" size="small"
-      :disabled="openApiConfig.host === '' || openApiConfig.token === ''"
-    />
-  </div>
+    <div class="mt-1">
+      <div>
+        地址：
+      </div>
+      <NInput
+        v-model:value="formValue.url" size="small"
+        :disabled="openApiConfig.host === '' || openApiConfig.token === ''"
+      />
+    </div>
 
-  <div class="mt-5">
-    <NButton
-      type="success" style="width: 100%;"
-      :disabled="openApiConfig.host === '' || openApiConfig.token === ''" @click="handleSave"
-    >
-      保存
-    </NButton>
-  </div>
+    <div class="mt-1">
+      <div>
+        内网地址：
+      </div>
+      <NInput
+        v-model:value="formValue.lanUrl" size="small"
+        :disabled="openApiConfig.host === '' || openApiConfig.token === ''"
+      />
+    </div>
+
+    <div class="mt-1">
+      <NButton
+        type="success" style="width: 100%;"
+        :disabled="openApiConfig.host === '' || openApiConfig.token === ''" @click="handleSave"
+      >
+        保存
+      </NButton>
+    </div>
+  </NCard>
 
   <!-- <div>{{ currentUrl }}</div> -->
 </template>
-
-<style scoped></style>
