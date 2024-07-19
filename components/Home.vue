@@ -24,6 +24,8 @@ const formRef = ref<FormInst | null>(null)
 const ms = createDiscreteApi(['message'])
 const currentUrl = ref('')
 const webSiteIcons = ref<ImageListItem[]>([])
+const isSumitLoading = ref(false)
+const isSaveSuccess = ref(false)
 const openApiConfig = ref<OpenAPIConfig>({
   host: '',
   token: '',
@@ -197,13 +199,13 @@ function removeTrailingSlash(str: string) {
   return str.replace(/\/+$/, '')
 }
 
-function submit() {
-  console.log(formValue.value)
+async function submit() {
+  // console.log(formValue.value)
 
   // 没有找到图标使用默认图标
   const url = `${removeTrailingSlash(openApiConfig.value.host)}/item/create`
-
-  fetch(url, {
+  isSumitLoading.value = true
+  await fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -215,6 +217,7 @@ function submit() {
     .then((data) => {
       if (data.code === 0) {
         ms.message.success('保存成功')
+        isSaveSuccess.value = true // 保存成功禁止再次保存
       }
       else {
         if (data.code === 1000) {
@@ -226,6 +229,8 @@ function submit() {
       console.error('Error:', error)
       ms.message.error('保存失败')
     })
+
+  isSumitLoading.value = false
 }
 
 function handleSave(e: MouseEvent) {
@@ -306,7 +311,14 @@ onMounted(() => {
         <NInput v-model:value="formValue.lanUrl" />
       </NFormItem>
 
-      <NButton attr-type="button" size="small" type="success" style="width: 100%;" @click="handleSave">
+      <NButton
+        size="small"
+        type="success"
+        style="width: 100%;"
+        :disabled="isSaveSuccess"
+        :loading="isSumitLoading"
+        @click="handleSave"
+      >
         保存
       </NButton>
     </NForm>
