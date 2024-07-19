@@ -4,12 +4,11 @@ import Home from './Home.vue'
 import backgroundImg from '@/assets/defaultBackground.webp'
 import { useTheme } from '@/hooks/useTheme'
 
-const { theme, themeOverrides } = useTheme()
+const { themeOverrides } = useTheme()
 </script>
 
 <template>
   <NConfigProvider
-    :theme="theme"
     :theme-overrides="themeOverrides"
   >
     <div
@@ -29,21 +28,6 @@ const { theme, themeOverrides } = useTheme()
   height: 100vh;
   background-size: cover;
   background-position: center;
-  /* background-color: #18181b; */
-}
-
-/* @media (prefers-color-scheme: light) {
-
-  html,
-  body {
-    background-color: rgb(255, 255, 255);
-  }
-} */
-</style>
-
-<style>
-html,
-body {
-  background-color: #18181b;
+  background-color: #ddd;
 }
 </style>

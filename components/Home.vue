@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { NAlert, NButton, NDivider, NH3, NImage, NInput, createDiscreteApi } from 'naive-ui'
+import { NAlert, NButton, NDivider, NH3, NH4, NH5, NImage, NInput, createDiscreteApi } from 'naive-ui'
 import { Refresh as RefreshIcon, SettingsSharp as SettingsIcon } from '@vicons/ionicons5'
 import * as cheerio from 'cheerio'
 
@@ -226,7 +226,9 @@ onMounted(() => {
   </NAlert>
 
   <div class="mt-5">
-    获取的图标：
+    <NH5>
+      获取的图标：
+    </NH5>
     <div>
       <NImage
         v-for="icon, index in webSiteIcons"
@@ -242,7 +244,9 @@ onMounted(() => {
   </div>
 
   <div class="mt-5">
-    标题：
+    <NH5>
+      标题：
+    </NH5>
     <NInput
       v-model:value="formValue.title" size="small"
       :disabled="openApiConfig.host === '' || openApiConfig.token === ''"
@@ -250,7 +254,9 @@ onMounted(() => {
   </div>
 
   <div class="mt-5">
-    地址：
+    <NH5>
+      地址：
+    </NH5>
     <NInput
       v-model:value="formValue.url" size="small"
       :disabled="openApiConfig.host === '' || openApiConfig.token === ''"
@@ -258,7 +264,9 @@ onMounted(() => {
   </div>
 
   <div class="mt-5">
-    内网地址：
+    <NH5>
+      内网地址：
+    </NH5>
     <NInput
       v-model:value="formValue.lanUrl" size="small"
       :disabled="openApiConfig.host === '' || openApiConfig.token === ''"

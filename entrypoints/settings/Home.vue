@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { NAlert, NButton, NCard, NForm, NFormItem, NH1, NH2, NInput, NTag, createDiscreteApi } from 'naive-ui'
+import { NAlert, NButton, NCard, NForm, NFormItem, NH1, NH2, NInput, NSelect, NTag, createDiscreteApi } from 'naive-ui'
 import type { FormInst } from 'naive-ui'
+import type { Language, Theme } from '@/store/modules/app/helper'
+import { useAppStore } from '@/store'
 
 interface OpenAPIConfig {
   host: string
@@ -14,6 +16,7 @@ interface HomePageConfig {
 }
 
 const ms = createDiscreteApi(['message'])
+const appStore = useAppStore()
 const openApiFormValue = ref<OpenAPIConfig>({
   host: '',
   token: '',
@@ -23,6 +26,17 @@ const homePageFormValue = ref<HomePageConfig>({
   url: '',
   spareUrl: '',
 })
+
+const themeOptions: { label: string, key: string, value: Theme }[] = [
+  { label: '深色', key: 'dark', value: 'dark' },
+  { label: '浅色', key: 'light', value: 'light' },
+  { label: '自动', key: 'Auto', value: 'auto' },
+]
+
+const languageOptions: { label: string, key: Language, value: Language }[] = [
+  { label: 'English', key: 'en-US', value: 'en-US' },
+  { label: '简体中文', key: 'zh-CN', value: 'zh-CN' },
+]
 
 const openApiRules = {
   host: {
@@ -44,13 +58,15 @@ const homePageRules = {
     trigger: ['input', 'blur'],
   },
   spareUrl: {
-    message: '请输入年龄',
+    message: '必填项',
     trigger: ['input', 'blur'],
   },
 }
 
 const openApiFormRef = ref<FormInst | null>(null)
 const homePageFormRef = ref<FormInst | null>(null)
+const languageValue = ref(appStore.language)
+const themeValue = ref(appStore.theme)
 
 onMounted(() => {
   getConfig()
@@ -105,12 +121,49 @@ function handleSaveOpenAPIConfig(e: MouseEvent) {
     }
   })
 }
+
+function handleChangeLanuage(value: Language) {
+  languageValue.value = value
+  appStore.setLanguage(value)
+  location.reload()
+}
+
+function handleChangeTheme(value: Theme) {
+  themeValue.value = value
+  appStore.setTheme(value)
+  // location.reload()
+}
 </script>
 
 <template>
   <div class="mx-auto max-w-[600px]">
     <NH2>Sun-Panel 设置</NH2>
+
     <NCard style="border-radius: 1rem">
+      <template #header>
+        界面设置
+      </template>
+
+      <div class="mt-[10px]">
+        <div class="text-slate-500 font-bold">
+          语言
+        </div>
+        <div class="max-w-[200px]">
+          <NSelect v-model:value="languageValue" :options="languageOptions" @update-value="handleChangeLanuage" />
+        </div>
+      </div>
+
+      <div class="mt-[10px]">
+        <div class="text-slate-500 font-bold">
+          主题
+        </div>
+        <div class="max-w-[200px]">
+          <NSelect v-model:value="themeValue" :options="themeOptions" @update-value="handleChangeTheme" />
+        </div>
+      </div>
+    </NCard>
+
+    <NCard style="border-radius: 1rem;margin-top: 10px;">
       <template #header>
         首页地址
       </template>

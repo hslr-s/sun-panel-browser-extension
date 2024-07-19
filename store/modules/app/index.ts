@@ -10,6 +10,7 @@ export const useAppStore = defineStore('app-store', {
   }),
   actions: {
     async initialize() {
+      console.log('初始胡')
       const localSettings = await getLocalSetting()
       this.$state = { ...this.$state, ...localSettings }
     },

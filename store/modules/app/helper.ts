@@ -7,7 +7,6 @@ export type Theme = 'light' | 'dark' | 'auto'
 export type Language = 'zh-CN' | 'en-US'
 
 export interface AppState {
-  siderCollapsed: boolean
   theme: Theme
   language: Language
   siteSetting: GlobalSetting.SiteSetting
@@ -25,7 +24,7 @@ export function defaultSetting(): AppState {
     loginBackgroundUrl: loginDefaultBackgroundUrl,
   }
 
-  return { siderCollapsed: false, theme: 'auto', language, siteSetting }
+  return { theme: 'auto', language, siteSetting }
 }
 
 export async function getLocalSetting(): Promise<AppState> {
@@ -37,7 +36,11 @@ export async function getLocalSetting(): Promise<AppState> {
 }
 
 export function setLocalSetting(setting: AppState): void {
-  storage.setItem(`local:${LOCAL_NAME}`, setting)
+  storage.setItem(`local:${LOCAL_NAME}`, setting).then(() => {
+    console.log('保存成功', `local:${LOCAL_NAME}`, setting)
+  }).catch((err) => {
+    console.error('保存失败', `local:${LOCAL_NAME}`, setting, err)
+  })
 }
 
 export function removeLocalState() {

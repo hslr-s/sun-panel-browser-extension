@@ -34,10 +34,12 @@ export function useTheme() {
     () => isDark.value,
     (dark) => {
       console.log('更新主题', 'isDark', dark)
-      if (dark)
+      if (dark) {
         document.documentElement.classList.add('dark')
-      else
+      }
+      else {
         document.documentElement.classList.remove('dark')
+      }
     },
     { immediate: true },
   )
