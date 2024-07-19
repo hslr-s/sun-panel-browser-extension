@@ -7,6 +7,7 @@ export default defineConfig({
     permissions: ['storage', 'scripting', 'activeTab', 'contextMenus'],
     name: 'Sun-Panel BE',
     version: '0.1.1',
+    version_name: '0.1.1-beta',
     host_permissions: ['https://*/*', 'http://*/*', '*://*/*'],
   },
 })

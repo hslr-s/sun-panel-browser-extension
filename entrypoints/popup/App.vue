@@ -29,7 +29,7 @@ function handleUpdateLog() {
   browser.tabs.create({ url })
 }
 
-const version = browser.runtime.getManifest().version
+const version_name = browser.runtime.getManifest().version_name
 const appName = browser.runtime.getManifest().name
 </script>
 
@@ -46,7 +46,7 @@ const appName = browser.runtime.getManifest().name
             title="更新日志&检查新版本"
             @click="handleUpdateLog"
           >
-            (v{{ version }})
+            (v{{ version_name }})
           </span>
         </div>
         <div class="ml-auto">
