@@ -1,31 +1,28 @@
-import { computed } from 'vue'
-import { enUS, zhCN } from 'naive-ui'
-// import { enUS, koKR, zhCN, zhTW } from 'naive-ui'
-import { useAppStore } from '@/store'
-import { setLocale } from '@/locales'
+import { computed, watch } from 'vue';
+import { enUS, zhCN } from 'naive-ui';
+import { useAppStore } from '@/store';
 
 export function useLanguage() {
-  const appStore = useAppStore()
+  const { locale } = useI18n(); // 使用 i18n 对象
+  const appStore = useAppStore();
 
   const language = computed(() => {
+    let langData;
     switch (appStore.language) {
       case 'en-US':
-        setLocale('en-US')
-        return enUS
-      // case 'ko-KR':
-      //   setLocale('ko-KR')
-      //   return koKR
+        langData = enUS;
+        locale.value = 'en-US'; // 使用 locale.value 来更改语言
+        break;
       case 'zh-CN':
-        setLocale('zh-CN')
-        return zhCN
-      // case 'zh-TW':
-      //   setLocale('zh-TW')
-      //   return zhTW
+        langData = zhCN;
+        locale.value = 'zh-CN'; // 同上
+        break;
       default:
-        setLocale('zh-CN')
-        return zhCN
+        langData = zhCN;
+        locale.value = 'zh-CN'; // 默认语言设置
     }
-  })
+    return langData;
+  });
 
-  return { language }
+  return { language };
 }

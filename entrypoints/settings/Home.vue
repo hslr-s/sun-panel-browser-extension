@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { NAlert, NButton, NCard, NForm, NFormItem, NH1, NH2, NInput, NSelect, NTag, createDiscreteApi } from 'naive-ui'
 import type { FormInst, FormItemRule } from 'naive-ui'
 import type { Language, Theme } from '@/store/modules/app/helper'
 import { useAppStore } from '@/store'
 import { isValidHttpUrl } from '@/util/verifyRules'
+
+const { t, locale } = useI18n()
 
 interface OpenAPIConfig {
   host: string
@@ -28,11 +30,12 @@ const homePageFormValue = ref<HomePageConfig>({
   spareUrl: '',
 })
 
-const themeOptions: { label: string, key: string, value: Theme }[] = [
-  { label: '深色', key: 'dark', value: 'dark' },
-  { label: '浅色', key: 'light', value: 'light' },
-  { label: '自动', key: 'Auto', value: 'auto' },
-]
+const appName = browser.runtime.getManifest().name
+// const themeOptions: { label: string, key: string, value: Theme }[] = [
+//   { label: '深色', key: 'dark', value: 'dark' },
+//   { label: '浅色', key: 'light', value: 'light' },
+//   { label: '自动', key: 'Auto', value: 'auto' },
+// ]
 
 const languageOptions: { label: string, key: Language, value: Language }[] = [
   { label: 'English', key: 'en-US', value: 'en-US' },
@@ -43,12 +46,12 @@ const openApiRules = {
   host: [
     {
       required: true,
-      message: '必填项',
+      message: t('form.required'),
       trigger: ['blur'],
     },
     {
       trigger: ['blur'],
-      message: '不是一个有效的HTTP地址',
+      message: t('form.httpUrlIncorrect'),
       validator(rule: FormItemRule, value: string) {
         return isValidHttpUrl(value)
       },
@@ -56,8 +59,8 @@ const openApiRules = {
   ],
   token: {
     required: true,
-    message: '必填项',
-    trigger: ['input', 'blur'],
+    message: t('form.required'),
+    trigger: ['blur'],
   },
 }
 
@@ -65,12 +68,12 @@ const homePageRules = {
   url: [
     {
       required: true,
-      message: '必填项',
-      trigger: ['input', 'blur'],
+      message: t('form.required'),
+      trigger: ['blur'],
     },
     {
       trigger: ['blur'],
-      message: '不是一个有效的HTTP地址',
+      message: t('form.httpUrlIncorrect'),
       validator(rule: FormItemRule, value: string) {
         return isValidHttpUrl(value)
       },
@@ -78,7 +81,7 @@ const homePageRules = {
   ],
   spareUrl: {
     trigger: ['input', 'blur'],
-    message: '不是一个有效的HTTP地址',
+    message: t('form.httpUrlIncorrect'),
     validator(rule: FormItemRule, value: string) {
       return value === '' || isValidHttpUrl(value)
     },
@@ -88,7 +91,11 @@ const homePageRules = {
 const openApiFormRef = ref<FormInst | null>(null)
 const homePageFormRef = ref<FormInst | null>(null)
 const languageValue = ref(appStore.language)
-const themeValue = ref(appStore.theme)
+// const themeValue = ref(appStore.theme)
+
+watch(() => appStore.language, (value) => {
+  languageValue.value = value
+})
 
 onMounted(() => {
   getConfig()
@@ -113,15 +120,15 @@ function handleSaveHomePageConfig(e: MouseEvent) {
   homePageFormRef.value?.validate((errors) => {
     if (!errors) {
       storage.setItem('local:homePageConfig', homePageFormValue.value).then(() => {
-        ms.message.success('保存成功')
+        ms.message.success(t('common.saveSuccess'))
       }).catch((err) => {
-        ms.message.error('保存失败，请稍后再试')
+        ms.message.error(t('common.saveFail'))
         console.error(err)
       })
     }
     else {
       console.error(errors)
-      ms.message.error('保存失败，请检查表单是否有输入错误')
+      ms.message.error(t('form.error'))
     }
   })
 }
@@ -131,83 +138,84 @@ function handleSaveOpenAPIConfig(e: MouseEvent) {
   openApiFormRef.value?.validate((errors) => {
     if (!errors) {
       storage.setItem('local:openAPIConfig', openApiFormValue.value).then(() => {
-        ms.message.success('保存成功')
+        ms.message.success(t('common.saveSuccess'))
       }).catch((err) => {
-        ms.message.error('保存失败，请稍后再试')
+        ms.message.error(t('common.saveFail'))
         console.error(err)
       })
     }
     else {
       console.error(errors)
-      ms.message.error('保存失败，请检查表单是否有输入错误')
+      ms.message.error(t('form.error'))
     }
   })
 }
 
 function handleChangeLanuage(value: Language) {
   languageValue.value = value
+  locale.value = value
   appStore.setLanguage(value)
-  location.reload()
-}
-
-function handleChangeTheme(value: Theme) {
-  themeValue.value = value
-  appStore.setTheme(value)
   // location.reload()
 }
+
+// function handleChangeTheme(value: Theme) {
+//   themeValue.value = value
+//   appStore.setTheme(value)
+//   // location.reload()
+// }
 </script>
 
 <template>
   <div class="mx-auto max-w-[600px]">
-    <NH2>Sun-Panel 设置</NH2>
+    <NH2>{{ appName }} {{ t('common.settings') }}</NH2>
 
     <NCard style="border-radius: 1rem">
       <template #header>
-        界面设置
+        {{ $t('settings.interface') }}
       </template>
 
       <div class="mt-[10px]">
         <div class="text-slate-500 font-bold">
-          语言
+          {{ $t('common.language') }}
         </div>
         <div class="max-w-[200px]">
           <NSelect v-model:value="languageValue" :options="languageOptions" @update-value="handleChangeLanuage" />
         </div>
       </div>
 
-      <div class="mt-[10px]">
+      <!-- <div class="mt-[10px]">
         <div class="text-slate-500 font-bold">
           主题
         </div>
         <div class="max-w-[200px]">
           <NSelect v-model:value="themeValue" :options="themeOptions" @update-value="handleChangeTheme" />
         </div>
-      </div>
+      </div> -->
     </NCard>
 
     <NCard style="border-radius: 1rem;margin-top: 10px;">
       <template #header>
-        首页地址
+        {{ t('settings.homePageUrl') }}
       </template>
 
       <div class="my-2">
         <NAlert type="info" closable size="small">
-          当点击新标签页的时候，会自动跳转到首页地址，优先使用主要地址，如果主要地址链接不通的使用会使用备用地址。当您有内网和公网两个地址，推荐主要地址填写为内网地址。
+          {{ t('settings.homePageUrlNote') }}
         </NAlert>
       </div>
       <NForm ref="homePageFormRef" :label-width="80" :model="homePageFormValue" :rules="homePageRules" size="small">
-        <NFormItem label="主要地址" path="url">
+        <NFormItem :label="t('settings.mainUrl')" path="url">
           <NInput v-model:value="homePageFormValue.url" />
         </NFormItem>
 
-        <NFormItem label="备用地址" path="spareUrl">
+        <NFormItem :label="t('settings.spareUrl')" path="spareUrl">
           <NInput v-model:value="homePageFormValue.spareUrl" />
         </NFormItem>
 
         <NFormItem>
           <div class="flex justify-end">
             <NButton attr-type="button" type="success" @click="handleSaveHomePageConfig">
-              保存
+              {{ t('common.save') }}
             </NButton>
           </div>
         </NFormItem>
@@ -221,23 +229,20 @@ function handleChangeTheme(value: Theme) {
 
       <div class="my-2">
         <NAlert type="info" closable size="small">
-          通过 Sun-Panel 的 OpenAPI 来创建当前页面的图标，需要 Sun-Panel 版本在
-          <NTag size="small">
-            v1.4.0-beta24-04-11+
-          </NTag>
+          {{ t('settings.openAPINote', { version: "v1.4.0-beta24-04-11+" }) }}
         </NAlert>
       </div>
 
       <NForm ref="openApiFormRef" :label-width="80" :model="openApiFormValue" :rules="openApiRules" size="small">
-        <NFormItem label="地址" path="host">
+        <NFormItem :label="t('common.address')" path="host">
           <NInput v-model:value="openApiFormValue.host" />
         </NFormItem>
-        <NFormItem label="token" path="token">
+        <NFormItem label="Token" path="token">
           <NInput v-model:value="openApiFormValue.token" type="password" />
         </NFormItem>
         <NFormItem>
           <NButton attr-type="button" type="success" @click="handleSaveOpenAPIConfig">
-            保存
+            {{ t('common.save') }}
           </NButton>
         </NFormItem>
       </NForm>

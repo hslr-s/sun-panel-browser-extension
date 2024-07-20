@@ -2,14 +2,14 @@
 import { NConfigProvider } from 'naive-ui'
 import Home from './Home.vue'
 import backgroundImg from '@/assets/defaultBackground.webp'
-import { useTheme } from '@/hooks/useTheme'
+import { useLanguage } from '@/hooks/useLanguage'
 
-const { themeOverrides } = useTheme()
+const { language } = useLanguage()
 </script>
 
 <template>
   <NConfigProvider
-    :theme-overrides="themeOverrides"
+    :locale="language"
   >
     <div
       class="background dark:bg-[#18181B]"
