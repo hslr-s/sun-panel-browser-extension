@@ -1,6 +1,11 @@
 <script lang="ts" setup>
-import { NButton, NCard, createDiscreteApi } from 'naive-ui'
+import { NButton, NCard } from 'naive-ui'
 import backgroundImg from '@/assets/defaultBackground.webp'
+import { useLanguage } from '@/hooks/useLanguage'
+
+const { t } = useI18n()
+
+const { language } = useLanguage()
 
 console.log(backgroundImg)
 interface HomePageConfig {
@@ -8,7 +13,7 @@ interface HomePageConfig {
   spareUrl: string
 }
 
-const ms = createDiscreteApi(['message'])
+// const ms = createDiscreteApi(['message'])
 const isSetHomePageUrl = ref(true)
 
 function ping(url: string, attempts: number, timeout: number): Promise<number> {
@@ -76,7 +81,7 @@ onMounted(async () => {
   // console.log(666)
   await storage.getItem<HomePageConfig>('local:homePageConfig').then((cfg) => {
     if (!cfg) {
-      ms.message.warning('请先配置首页地址')
+      // ms.message.warning('请先配置首页地址')
       isSetHomePageUrl.value = false
       return
     }
@@ -95,9 +100,9 @@ onMounted(async () => {
   }
 
   // console.log(homePageConfig.url)
-  await ping(homePageConfig.url, 2, 200).then((msv) => {
+  await ping(homePageConfig.url, 2, 200).then(() => {
     location.href = homePageConfig.url
-    ms.message.success(`${homePageConfig.url} - ${msv}`)
+    // ms.message.success(`${homePageConfig.url} - ${msv}`)
   }).catch((err) => {
     location.href = homePageConfig.spareUrl
     console.error(err)
@@ -111,19 +116,23 @@ function handleGoSettingPage() {
 </script>
 
 <template>
-  <div class="background" :style="{ backgroundImage: `url(${backgroundImg})` }">
-    <div v-if="!isSetHomePageUrl">
-      <div style="max-width: 500px;margin:50px auto">
-        <NCard>
-          <div class="flex justify-center">
-            <NButton type="success" @click="handleGoSettingPage">
-              还未设置首页地址，请点击前往设置
-            </NButton>
-          </div>
-        </NCard>
+  <NConfigProvider
+    :locale="language"
+  >
+    <div class="background" :style="{ backgroundImage: `url(${backgroundImg})` }">
+      <div v-if="!isSetHomePageUrl">
+        <div style="max-width: 80%;margin:50px auto">
+          <NCard>
+            <div class="flex justify-center">
+              <NButton type="success" @click="handleGoSettingPage">
+                {{ t("homePage.noSetHomePageUrl") }}
+              </NButton>
+            </div>
+          </NCard>
+        </div>
       </div>
     </div>
-  </div>
+  </NConfigProvider>
 </template>
 
 <style scoped>

@@ -4,6 +4,10 @@ import { HelpSharp as HelpIcon, SettingsSharp as SettingsIcon } from '@vicons/io
 import Home from '@/components/Home.vue'
 import { useTheme } from '@/hooks/useTheme'
 import { useAppStore } from '@/store'
+import { useLanguage } from '@/hooks/useLanguage'
+
+const { language } = useLanguage()
+const { t } = useI18n()
 
 const appStore = useAppStore()
 const { themeOverrides } = useTheme()
@@ -36,6 +40,7 @@ const appName = browser.runtime.getManifest().name
 <template>
   <NConfigProvider
     :theme-overrides="themeOverrides"
+    :locale="language"
   >
     <div class="root">
       <div class="header flex items-center">
@@ -43,7 +48,7 @@ const appName = browser.runtime.getManifest().name
           {{ appName }}
           <span
             class="text-sm cursor-pointer text-[#00eafd] hover:text-[#000]"
-            title="更新日志&检查新版本"
+            :title="t('popup.uploadLog')"
             @click="handleUpdateLog"
           >
             (v{{ version_name }})

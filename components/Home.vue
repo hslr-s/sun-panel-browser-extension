@@ -9,7 +9,7 @@ import { isValidHttpUrl } from '@/util/verifyRules'
 defineProps({
   msg: String,
 })
-
+const { t } = useI18n()
 interface OpenAPIConfig {
   host: string
   token: string
@@ -42,12 +42,12 @@ const rules = {
   url: [
     {
       required: true,
-      message: '必填项',
-      trigger: ['input', 'blur'],
+      message: t('form.required'),
+      trigger: ['blur'],
     },
     {
-      trigger: ['input', 'blur'],
-      message: '不是一个有效的HTTP地址',
+      trigger: ['blur'],
+      message: t('form.httpUrlIncorrect'),
       validator(rule: FormItemRule, value: string) {
         return isValidHttpUrl(value)
       },
@@ -57,24 +57,24 @@ const rules = {
   title: [
     {
       required: true,
-      message: '必填项',
-      trigger: ['input', 'blur'],
+      message: t('form.required'),
+      trigger: ['blur'],
     },
     {
       max: 20,
-      message: '长度不得超过20个字符',
+      message: t('form.maxLimit', { length: 20 }),
       trigger: ['input', 'blur'],
     },
   ],
 
   iconUrl: {
     required: true,
-    message: '必选',
+    message: t('form.required'),
     trigger: ['input', 'blur'],
   },
 
   lanUrl: {
-    message: '不是一个有效的HTTP地址',
+    message: t('form.httpUrlIncorrect'),
     trigger: ['input', 'blur'],
     validator(rule: FormItemRule, value: string) {
       return value === '' || isValidHttpUrl(value)
@@ -202,18 +202,18 @@ async function submit() {
     .then(response => response.json())
     .then((data) => {
       if (data.code === 0) {
-        ms.message.success('保存成功')
+        ms.message.success(t('common.save'))
         isSaveSuccess.value = true // 保存成功禁止再次保存
       }
       else {
         if (data.code === 1000) {
-          ms.message.error('保存失败，Token 过期或无效')
+          ms.message.error(t('popup.tokenInvalid'))
         }
       }
     })
     .catch((error) => {
       console.error('Error:', error)
-      ms.message.error('保存失败')
+      ms.message.error(t('common.saveFail'))
     })
 
   isSumitLoading.value = false
@@ -227,7 +227,7 @@ function handleSave(e: MouseEvent) {
     }
     else {
       console.error(errors)
-      ms.message.error('保存失败，请检查表单是否有输入错误')
+      ms.message.error(t('form.error'))
     }
   })
 }
@@ -246,7 +246,7 @@ onMounted(() => {
   <div class="my-2 text-lg font-bold text-zinc-700">
     <div class="flex items-center">
       <div class="mr-5">
-        将本站添加到 Sun-Panel
+        {{ t('popup.addCurrentSiteToSunPanel') }}
       </div>
 
       <NButton size="tiny" type="info" ghost circle @click="getIconAndUrl">
@@ -258,9 +258,9 @@ onMounted(() => {
   </div>
 
   <NAlert v-if="openApiConfig.host === '' || openApiConfig.token === ''" type="error" class="my-2" size="small">
-    请先配置OpenApi参数，再尝试添加
+    {{ t('popup.noSetOpenAPIUrl') }}
     <div class="text-[blue] cursor-pointer" @click="handleSetting">
-      去设置
+      {{ t('popup.goSet') }}
     </div>
   </NAlert>
 
@@ -278,22 +278,22 @@ onMounted(() => {
         />
       </NFormItem>
 
-      <NFormItem label="标题" path="title">
+      <NFormItem :label="t('common.title')" path="title">
         <NInput
           v-model:value="formValue.title" size="small"
           :disabled="openApiConfig.host === '' || openApiConfig.token === ''"
         />
       </NFormItem>
 
-      <NFormItem label="描述信息" path="description">
+      <NFormItem :label="t('common.description')" path="description">
         <NInput v-model:value="formValue.description" />
       </NFormItem>
 
-      <NFormItem label="地址" path="url">
+      <NFormItem :label="t('common.address')" path="url">
         <NInput v-model:value="formValue.url" />
       </NFormItem>
 
-      <NFormItem label="内网地址" path="lanUrl">
+      <NFormItem :label="t('popup.lanAddress')" path="lanUrl">
         <NInput v-model:value="formValue.lanUrl" />
       </NFormItem>
 
@@ -305,7 +305,7 @@ onMounted(() => {
         :loading="isSumitLoading"
         @click="handleSave"
       >
-        保存
+        {{ t('common.save') }}
       </NButton>
     </NForm>
   </NCard>

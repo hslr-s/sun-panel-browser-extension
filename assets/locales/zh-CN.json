@@ -68,7 +68,8 @@
   "form": {
     "required": "必填项",
     "error": "请正确填写表单内容",
-    "httpUrlIncorrect": "不是一个有效的HTTP地址"
+    "httpUrlIncorrect": "不是一个有效的HTTP地址",
+    "maxLimit": "长度不能超过{length}个字符"
   },
   "settings": {
     "interface": "界面",
@@ -77,5 +78,16 @@
     "spareUrl": "备用地址",
     "homePageUrlNote": "当点击新标签页的时候，会自动跳转到首页地址，优先使用主要地址，如果主要地址链接不通的使用会使用备用地址。当您有内网和公网两个地址，推荐主要地址填写为内网地址。",
     "openAPINote": "通过 Sun-Panel 的 OpenAPI 来创建当前页面的图标，需要 Sun-Panel 版本在 {version}"
+  },
+  "homePage": {
+    "noSetHomePageUrl": "还未设置首页地址，请点击前往设置"
+  },
+  "popup": {
+    "noSetOpenAPIUrl": "请先配置OpenAPI参数，再尝试添加",
+    "goSet": "前往设置",
+    "uploadLog": "更新日志&检查新版本",
+    "tokenInvalid": "Token 无效或已过期",
+    "addCurrentSiteToSunPanel": "将本站添加到 Sun-Panel",
+    "lanAddress": "内网的地址"
   }
 }
