@@ -69,29 +69,24 @@ const appName = browser.runtime.getManifest().name
         </div>
       </div>
 
-      <NScrollbar style="max-height: 500px;padding:0 20px">
-        <Home msg="Sun-Panel" />
-      </NScrollbar>
-
-      <div class="foot " />
+      <div class="bg-[white] rounded-t-2xl shadow-xl border">
+        <NScrollbar style="max-height: 500px;padding:0 20px">
+          <Home msg="Sun-Panel" />
+        </NScrollbar>
+      </div>
     </div>
   </NConfigProvider>
 </template>
 
 <style scoped>
 .header{
-  padding:5px 20px;
-  background-color: #4EB4BC;
-}
-
-.foot{
-  height: 2px;
-  background-color: #4EB4BC;
+  padding:8px 20px;
 }
 
 .root{
   min-width: 400px;
   max-width: 500px;
+  background-color: #4EB4BC;
 }
 </style>
 
