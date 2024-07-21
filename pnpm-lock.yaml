@@ -50,7 +50,7 @@ importers:
         version: 5.0.5(vite@5.3.4(@types/node@20.14.11))(vue@3.4.32(typescript@5.5.3))
       '@wxt-dev/module-vue':
         specifier: ^1.0.0
-        version: 1.0.0(vite@5.3.4(@types/node@20.14.11))(vue@3.4.32(typescript@5.5.3))(wxt@0.16.11(@types/node@20.14.11)(magicast@0.3.4)(rollup@4.18.1))
+        version: 1.0.0(vite@5.3.4(@types/node@20.14.11))(vue@3.4.32(typescript@5.5.3))(wxt@0.18.14(@types/node@20.14.11)(rollup@4.18.1))
       eslint-config-prettier:
         specifier: ^9.1.0
         version: 9.1.0(eslint@9.7.0)
@@ -79,10 +79,20 @@ importers:
         specifier: ^2.0.22
         version: 2.0.26(typescript@5.5.3)
       wxt:
-        specifier: ^0.16.0
-        version: 0.16.11(@types/node@20.14.11)(magicast@0.3.4)(rollup@4.18.1)
+        specifier: ^0.18.14
+        version: 0.18.14(@types/node@20.14.11)(rollup@4.18.1)
 
 packages:
+
+  '@aklinker1/rollup-plugin-visualizer@5.12.0':
+    resolution: {integrity: sha512-X24LvEGw6UFmy0lpGJDmXsMyBD58XmX1bbwsaMLhNoM+UMQfQ3b2RtC+nz4b/NoRK5r6QJSKJHBNVeUdwqybaQ==}
+    engines: {node: '>=14'}
+    hasBin: true
+    peerDependencies:
+      rollup: 2.x || 3.x || 4.x
+    peerDependenciesMeta:
+      rollup:
+        optional: true
 
   '@alloc/quick-lru@5.2.0':
     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
@@ -1171,6 +1181,10 @@ packages:
     resolution: {integrity: sha512-PKA4BeSvBpQKQ8iPOGCSiell+N8P+Tf1DlwqmYhpe2gAhKPHn8EYOxVT+ShuGmhg8lN8XiSlS80yiExKXrURlw==}
     engines: {node: '>=12'}
 
+  bundle-name@4.1.0:
+    resolution: {integrity: sha512-tjwM5exMg6BGRI+kNmTntNsvdZS1X8BFYS6tnJ2hdH0kVxM6/eVZ2xy+FqStSWvYmtfFMDLIxurorHwDKfDz5Q==}
+    engines: {node: '>=18'}
+
   bunyan@1.8.15:
     resolution: {integrity: sha512-0tECWShh6wUysgucJcBAoYegf3JJoZWibxdqhTm7OHPeT42qdjkZ29QCMcKwbgU1kiH+auSIasNRXMLWXafXig==}
     engines: {'0': node >=0.10.0}
@@ -1454,9 +1468,17 @@ packages:
     resolution: {integrity: sha512-OZ1y3y0SqSICtE8DE4S8YOE9UZOJ8wO16fKWVP5J1Qz42kV9jcnMVFrEE/noXb/ss3Q4pZIH79kxofzyNNtUNA==}
     engines: {node: '>=12'}
 
+  default-browser-id@5.0.0:
+    resolution: {integrity: sha512-A6p/pu/6fyBcA1TRz/GqWYPViplrftcW2gZC9q79ngNCKAeR/X3gcEdXQHl4KNXV+3wgIJ1CPkJQ3IHM6lcsyA==}
+    engines: {node: '>=18'}
+
   default-browser@4.0.0:
     resolution: {integrity: sha512-wX5pXO1+BrhMkSbROFsyxUm0i/cJEScyNhA4PPxc41ICuv05ZZB/MX28s8aZx6xjmatvebIapF6hLEKEcpneUA==}
     engines: {node: '>=14.16'}
+
+  default-browser@5.2.1:
+    resolution: {integrity: sha512-WY/3TUME0x3KPYdRRxEJJvXRHV4PyPoUsxtZa78lwItwRQRHhd2U9xOscaT/YTf8uCXIAjeJOFBVEh/7FtD8Xg==}
+    engines: {node: '>=18'}
 
   defaults@1.0.4:
     resolution: {integrity: sha512-eFuaLoy/Rxalv2kr+lqMlUnrDWV+3j4pljOIJgLIhI058IQfWJ7vXhyEIHu+HtC738klGALYxOKDO0bQP3tg8A==}
@@ -2383,8 +2405,8 @@ packages:
     resolution: {integrity: sha512-wM1+Z03eypVAVUCE7QdSqpVIvelbOakn1M0bPDoA4SGWPx3sNDVUiMo3L6To6WWGClB7VyXnhQ4Sn7gxiJbE6A==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
-  linkedom@0.16.11:
-    resolution: {integrity: sha512-WgaTVbj7itjyXTsCvgerpneERXShcnNJF5VIV+/4SLtyRLN+HppPre/WDHRofAr2IpEuujSNgJbCBd5lMl6lRw==}
+  linkedom@0.18.4:
+    resolution: {integrity: sha512-JhLErxMIEOKByMi3fURXgI1fYOzR87L1Cn0+MI9GlMckFrqFZpV1SUGox1jcKtsKN3y6JgclcQf0FzZT//BuGw==}
 
   listr2@8.2.3:
     resolution: {integrity: sha512-Lllokma2mtoniUOS94CcOErHWAug5iu7HOmDrvWgpw8jyQH2fomgB+7lZS4HWZxytUuQwkGOwe49FvwVaA85Xw==}
@@ -2443,9 +2465,6 @@ packages:
 
   make-error@1.3.6:
     resolution: {integrity: sha512-s8UhlNe7vPKomQhC1qFelMokr/Sc3AgNbso3n74mVPA5LTZwkB9NlXf4XPamLxJE8h0gh73rM94xvwRT2CVInw==}
-
-  manage-path@2.0.0:
-    resolution: {integrity: sha512-NJhyB+PJYTpxhxZJ3lecIGgh4kwIY2RAh44XvAz9UlqthlQwtPBf62uBVR8XaD8CRuSjQ6TnZH2lNJkbLPZM2A==}
 
   marky@1.2.5:
     resolution: {integrity: sha512-q9JtQJKjpsVxCRVgQ+WapguSbKC3SQ5HEzFGPAJMStgh3QjCawp00UKv3MTTAArTmGmmPUvllHZoNbZ3gs0I+Q==}
@@ -2647,6 +2666,10 @@ packages:
   onetime@6.0.0:
     resolution: {integrity: sha512-1FlR+gjXK7X+AsAHso35MnyN5KqGwJRi/31ft6x0M194ht7S+rWAvd7PHss9xSKMzE0asv1pyIHaJYq+BbacAQ==}
     engines: {node: '>=12'}
+
+  open@10.1.0:
+    resolution: {integrity: sha512-mnkeQ1qP5Ue2wd+aivTD3NHd/lZ96Lu0jgf0pwktLPtx6cTZiH7tyeGRRHs0zX0rbrahXPnXlUnbeXyaBBuIaw==}
+    engines: {node: '>=18'}
 
   open@8.4.2:
     resolution: {integrity: sha512-7x81NCL719oNbsq/3mh+hVrAWmFuEYUqrq/Iw3kUzH8ReypT9QQ0BLoJS7/G9k6N81XjW4qHWtjWwe/9eLy1EQ==}
@@ -3006,16 +3029,6 @@ packages:
     deprecated: Rimraf versions prior to v4 are no longer supported
     hasBin: true
 
-  rollup-plugin-visualizer@5.12.0:
-    resolution: {integrity: sha512-8/NU9jXcHRs7Nnj07PF2o4gjxmm9lXIrZ8r175bT9dK8qoLlvKTwRMArRCMgpMGlq8CTLugRvEmyMeMXIU2pNQ==}
-    engines: {node: '>=14'}
-    hasBin: true
-    peerDependencies:
-      rollup: 2.x || 3.x || 4.x
-    peerDependenciesMeta:
-      rollup:
-        optional: true
-
   rollup@4.18.1:
     resolution: {integrity: sha512-Elx2UT8lzxxOXMpy5HWQGZqkrQOtrVDDa/bm9l10+U4rQnVzbL/LgZ4NOM1MPIDyHk69W4InuYDF5dzRh4Kw1A==}
     engines: {node: '>=18.0.0', npm: '>=8.0.0'}
@@ -3024,6 +3037,10 @@ packages:
   run-applescript@5.0.0:
     resolution: {integrity: sha512-XcT5rBksx1QdIhlFOCtgZkB99ZEouFZ1E2Kc2LHqNW13U3/74YGdkQRmThTwxy4QIyookibDKYZOPqX//6BlAg==}
     engines: {node: '>=12'}
+
+  run-applescript@7.0.0:
+    resolution: {integrity: sha512-9by4Ij99JUr/MCFBUkDKLWK3G9HVXmabKz9U5MlIAIuvuzkiOicRYs8XJLxX+xahD+mLiiCYDqF9dKAgtzKP1A==}
+    engines: {node: '>=18'}
 
   run-parallel@1.2.0:
     resolution: {integrity: sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==}
@@ -3412,6 +3429,11 @@ packages:
   vfonts@0.0.3:
     resolution: {integrity: sha512-nguyw8L6Un8eelg1vQ31vIU2ESxqid7EYmy8V+MDeMaHBqaRSkg3dTBToC1PR00D89UzS/SLkfYPnx0Wf23IQQ==}
 
+  vite-node@1.6.0:
+    resolution: {integrity: sha512-de6HJgzC+TFzOu0NTC4RAIsyf/DY/ibWDYQUcuEA84EMHhcefTUGkjFHKKEJhQN4A+6I0u++kr3l36ZF2d7XRw==}
+    engines: {node: ^18.0.0 || >=20.0.0}
+    hasBin: true
+
   vite@5.3.4:
     resolution: {integrity: sha512-Cw+7zL3ZG9/NZBB8C+8QbQZmR54GwqIz+WMI4b3JgdYJvX+ny9AjJXqkGQlDXSXRP9rP0B4tbciRMOVEKulVOA==}
     engines: {node: ^18.0.0 || >=20.0.0}
@@ -3567,9 +3589,8 @@ packages:
       utf-8-validate:
         optional: true
 
-  wxt@0.16.11:
-    resolution: {integrity: sha512-wnU4JLOAKZHdj4fI0pjjHMDXcr3EX/PzHm7OI/GHtqOEhybOKP9mDAkVVdejMt2M8i445J/Njlg+hzKt04EgDw==}
-    engines: {node: '>=18', pnpm: '>=8'}
+  wxt@0.18.14:
+    resolution: {integrity: sha512-Oij2yaJAd34V+jCh/B2CGjnfR5LFod1HOmtT4ctsn7JmCmd0YTNQpIBFvxooWhWKV5V+zK+gK+r18M62iweVSQ==}
     hasBin: true
 
   xdg-basedir@5.1.0:
@@ -3634,6 +3655,15 @@ packages:
     resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
 
 snapshots:
+
+  '@aklinker1/rollup-plugin-visualizer@5.12.0(rollup@4.18.1)':
+    dependencies:
+      open: 8.4.2
+      picomatch: 2.3.1
+      source-map: 0.7.4
+      yargs: 17.7.2
+    optionalDependencies:
+      rollup: 4.18.1
 
   '@alloc/quick-lru@5.2.0': {}
 
@@ -4483,10 +4513,10 @@ snapshots:
 
   '@webext-core/match-patterns@1.0.3': {}
 
-  '@wxt-dev/module-vue@1.0.0(vite@5.3.4(@types/node@20.14.11))(vue@3.4.32(typescript@5.5.3))(wxt@0.16.11(@types/node@20.14.11)(magicast@0.3.4)(rollup@4.18.1))':
+  '@wxt-dev/module-vue@1.0.0(vite@5.3.4(@types/node@20.14.11))(vue@3.4.32(typescript@5.5.3))(wxt@0.18.14(@types/node@20.14.11)(rollup@4.18.1))':
     dependencies:
       '@vitejs/plugin-vue': 5.0.5(vite@5.3.4(@types/node@20.14.11))(vue@3.4.32(typescript@5.5.3))
-      wxt: 0.16.11(@types/node@20.14.11)(magicast@0.3.4)(rollup@4.18.1)
+      wxt: 0.18.14(@types/node@20.14.11)(rollup@4.18.1)
     transitivePeerDependencies:
       - vite
       - vue
@@ -4636,6 +4666,10 @@ snapshots:
   bundle-name@3.0.0:
     dependencies:
       run-applescript: 5.0.0
+
+  bundle-name@4.1.0:
+    dependencies:
+      run-applescript: 7.0.0
 
   bunyan@1.8.15:
     optionalDependencies:
@@ -4928,12 +4962,19 @@ snapshots:
       bplist-parser: 0.2.0
       untildify: 4.0.0
 
+  default-browser-id@5.0.0: {}
+
   default-browser@4.0.0:
     dependencies:
       bundle-name: 3.0.0
       default-browser-id: 3.0.0
       execa: 7.2.0
       titleize: 3.0.0
+
+  default-browser@5.2.1:
+    dependencies:
+      bundle-name: 4.1.0
+      default-browser-id: 5.0.0
 
   defaults@1.0.4:
     dependencies:
@@ -5948,7 +5989,7 @@ snapshots:
 
   lines-and-columns@2.0.4: {}
 
-  linkedom@0.16.11:
+  linkedom@0.18.4:
     dependencies:
       css-select: 5.1.0
       cssom: 0.5.0
@@ -6016,11 +6057,8 @@ snapshots:
       '@babel/parser': 7.24.8
       '@babel/types': 7.24.9
       source-map-js: 1.2.0
-    optional: true
 
   make-error@1.3.6: {}
-
-  manage-path@2.0.0: {}
 
   marky@1.2.5: {}
 
@@ -6237,6 +6275,13 @@ snapshots:
   onetime@6.0.0:
     dependencies:
       mimic-fn: 4.0.0
+
+  open@10.1.0:
+    dependencies:
+      default-browser: 5.2.1
+      define-lazy-prop: 3.0.0
+      is-inside-container: 1.0.0
+      is-wsl: 3.1.0
 
   open@8.4.2:
     dependencies:
@@ -6620,15 +6665,6 @@ snapshots:
       glob: 6.0.4
     optional: true
 
-  rollup-plugin-visualizer@5.12.0(rollup@4.18.1):
-    dependencies:
-      open: 8.4.2
-      picomatch: 2.3.1
-      source-map: 0.7.4
-      yargs: 17.7.2
-    optionalDependencies:
-      rollup: 4.18.1
-
   rollup@4.18.1:
     dependencies:
       '@types/estree': 1.0.5
@@ -6654,6 +6690,8 @@ snapshots:
   run-applescript@5.0.0:
     dependencies:
       execa: 5.1.1
+
+  run-applescript@7.0.0: {}
 
   run-parallel@1.2.0:
     dependencies:
@@ -7047,6 +7085,23 @@ snapshots:
 
   vfonts@0.0.3: {}
 
+  vite-node@1.6.0(@types/node@20.14.11):
+    dependencies:
+      cac: 6.7.14
+      debug: 4.3.5
+      pathe: 1.1.2
+      picocolors: 1.0.1
+      vite: 5.3.4(@types/node@20.14.11)
+    transitivePeerDependencies:
+      - '@types/node'
+      - less
+      - lightningcss
+      - sass
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+
   vite@5.3.4(@types/node@20.14.11):
     dependencies:
       esbuild: 0.21.5
@@ -7214,8 +7269,9 @@ snapshots:
 
   ws@8.18.0: {}
 
-  wxt@0.16.11(@types/node@20.14.11)(magicast@0.3.4)(rollup@4.18.1):
+  wxt@0.18.14(@types/node@20.14.11)(rollup@4.18.1):
     dependencies:
+      '@aklinker1/rollup-plugin-visualizer': 5.12.0(rollup@4.18.1)
       '@types/webextension-polyfill': 0.10.7
       '@webext-core/fake-browser': 1.3.1
       '@webext-core/isolated-element': 1.1.2
@@ -7224,7 +7280,7 @@ snapshots:
       c12: 1.11.1(magicast@0.3.4)
       cac: 6.7.14
       chokidar: 3.6.0
-      consola: 3.2.3
+      ci-info: 4.0.0
       defu: 6.1.4
       dequal: 2.0.3
       esbuild: 0.19.12
@@ -7237,27 +7293,29 @@ snapshots:
       is-wsl: 3.1.0
       jiti: 1.21.6
       json5: 2.2.3
-      linkedom: 0.16.11
-      manage-path: 2.0.0
+      jszip: 3.10.1
+      linkedom: 0.18.4
+      magicast: 0.3.4
       minimatch: 9.0.5
       natural-compare: 1.4.0
       normalize-path: 3.0.0
+      nypm: 0.3.9
+      ohash: 1.1.3
+      open: 10.1.0
       ora: 7.0.1
       picocolors: 1.0.1
       prompts: 2.4.2
       publish-browser-extension: 2.1.3
-      rollup-plugin-visualizer: 5.12.0(rollup@4.18.1)
       unimport: 3.9.0(rollup@4.18.1)
       vite: 5.3.4(@types/node@20.14.11)
+      vite-node: 1.6.0(@types/node@20.14.11)
       web-ext-run: 0.2.1
       webextension-polyfill: 0.10.0
-      zip-dir: 2.0.0
     transitivePeerDependencies:
       - '@types/node'
       - bufferutil
       - less
       - lightningcss
-      - magicast
       - rollup
       - sass
       - stylus

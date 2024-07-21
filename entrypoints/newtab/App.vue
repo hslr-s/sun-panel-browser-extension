@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { NButton, NCard } from 'naive-ui'
+import { onMounted, ref } from 'vue'
+import { NButton, NCard, NConfigProvider } from 'naive-ui'
 import backgroundImg from '@/assets/defaultBackground.webp'
 import { useLanguage } from '@/hooks/useLanguage'
 
@@ -7,7 +8,6 @@ const { t } = useI18n()
 
 const { language } = useLanguage()
 
-console.log(backgroundImg)
 interface HomePageConfig {
   url: string
   spareUrl: string
@@ -116,9 +116,7 @@ function handleGoSettingPage() {
 </script>
 
 <template>
-  <NConfigProvider
-    :locale="language"
-  >
+  <NConfigProvider :locale="language">
     <div class="background" :style="{ backgroundImage: `url(${backgroundImg})` }">
       <div v-if="!isSetHomePageUrl">
         <div style="max-width: 80%;margin:50px auto">
@@ -136,7 +134,7 @@ function handleGoSettingPage() {
 </template>
 
 <style scoped>
-.html body{
+html ,body {
   overflow: hidden;
 }
 
@@ -150,7 +148,7 @@ function handleGoSettingPage() {
 }
 
 @media (prefers-color-scheme: light) {
- .background {
+  .background {
     color: #213547;
     background-color: #ffffff;
   }

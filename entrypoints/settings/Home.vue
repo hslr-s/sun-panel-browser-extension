@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { NAlert, NButton, NCard, NForm, NFormItem, NH1, NH2, NInput, NSelect, NTag, createDiscreteApi } from 'naive-ui'
 import type { FormInst, FormItemRule } from 'naive-ui'
 import type { Language, Theme } from '@/store/modules/app/helper'

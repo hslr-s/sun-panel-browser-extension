@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { NAlert, NButton, NCard, NConfigProvider, NScrollbar, createDiscreteApi } from 'naive-ui'
+import { NButton, NConfigProvider, NScrollbar } from 'naive-ui'
 import { HelpSharp as HelpIcon, SettingsSharp as SettingsIcon } from '@vicons/ionicons5'
 import Home from '@/components/Home.vue'
 import { useTheme } from '@/hooks/useTheme'

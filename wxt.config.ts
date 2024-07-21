@@ -1,12 +1,13 @@
 import { defineConfig } from 'wxt'
 import vueI18n from '@intlify/unplugin-vue-i18n/vite'
+import vue from '@vitejs/plugin-vue'
 
 // See https://wxt.dev/api/config.html
 export default defineConfig({
   // modules: ['@wxt-dev/module-vue'],
   vite: () => ({
     plugins: [
-      // See https://vue-i18n.intlify.dev/guide/advanced/optimization.html
+      vue(),
       vueI18n({
         include: 'assets/locales/*.json',
       }),
