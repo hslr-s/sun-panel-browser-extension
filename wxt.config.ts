@@ -14,9 +14,12 @@ export default defineConfig({
   }),
   manifest: {
     permissions: ['storage', 'scripting', 'activeTab', 'contextMenus'],
-    name: 'Sun-Panel BE',
+    // name: 'Sun-Panel BE',
     version: '0.1.1',
     version_name: '0.1.1-beta',
     host_permissions: ['https://*/*', 'http://*/*', '*://*/*'],
+    name: '__MSG_extName__',
+    description: '__MSG_extDescription__',
+    default_locale: 'en',
   },
 })

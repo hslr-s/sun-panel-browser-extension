@@ -266,7 +266,7 @@ onMounted(() => {
 
   <NCard style="border-radius: 1rem;margin-bottom: 20px;" size="small" embedded>
     <NForm ref="formRef" :label-width="80" :model="formValue" :rules="rules" size="small">
-      <NFormItem label="获取的图标" path="iconUrl">
+      <NFormItem :label="t('popup.iconObtained')" path="iconUrl">
         <NImage
           v-for="icon, index in webSiteIcons"
           :key="index" preview-disabled

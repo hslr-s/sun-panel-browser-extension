@@ -88,6 +88,7 @@
     "uploadLog": "更新日志&检查新版本",
     "tokenInvalid": "Token 无效或已过期",
     "addCurrentSiteToSunPanel": "将本站添加到 Sun-Panel",
-    "lanAddress": "内网的地址"
+    "lanAddress": "内网的地址",
+    "iconObtained": "获取到的图标"
   }
 }

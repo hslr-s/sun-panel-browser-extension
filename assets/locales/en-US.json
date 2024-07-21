@@ -88,6 +88,7 @@
     "uploadLog": "Change log",
     "tokenInvalid": "Token is invalid or expired",
     "addCurrentSiteToSunPanel": "Add this site to Sun-Panel",
-    "lanAddress": "LAN address"
+    "lanAddress": "LAN address",
+    "iconObtained": "Obtained icons"
   }
 }
