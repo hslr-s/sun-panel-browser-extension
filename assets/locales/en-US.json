@@ -72,7 +72,7 @@
     "maxLimit": "Cannot exceed {length} characters in length"
   },
   "settings": {
-    "interface": "interface",
+    "interface": "Interface",
     "homePageUrl": "Home page address",
     "mainUrl": "Main address",
     "spareUrl": "Alternate address",
