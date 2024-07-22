@@ -6,6 +6,7 @@ import { Refresh as RefreshIcon } from '@vicons/ionicons5'
 import * as cheerio from 'cheerio'
 import { isValidHttpUrl } from '@/util/verifyRules'
 import { STip } from '@/components'
+import { postRequest } from '@/util/request'
 
 defineProps({
   msg: String,
@@ -187,35 +188,21 @@ function removeTrailingSlash(str: string) {
 }
 
 async function submit() {
-  // console.log(formValue.value)
-
   // 没有找到图标使用默认图标
   const url = `${removeTrailingSlash(openApiConfig.value.host)}/item/create`
   isSumitLoading.value = true
-  await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'token': openApiConfig.value.token,
-    },
-    body: JSON.stringify(formValue.value),
+  await postRequest({
+    url,
+    headers: { token: openApiConfig.value.token },
+    data: formValue.value,
+  }).then(() => {
+    ms.message.success(t('common.save'))
+    isSaveSuccess.value = true // 保存成功禁止再次保存
+  }).catch((res) => {
+    if (res.code === 1000) {
+      ms.message.error(t('popup.tokenInvalid'))
+    }
   })
-    .then(response => response.json())
-    .then((data) => {
-      if (data.code === 0) {
-        ms.message.success(t('common.save'))
-        isSaveSuccess.value = true // 保存成功禁止再次保存
-      }
-      else {
-        if (data.code === 1000) {
-          ms.message.error(t('popup.tokenInvalid'))
-        }
-      }
-    })
-    .catch((error) => {
-      console.error('Error:', error)
-      ms.message.error(t('common.saveFail'))
-    })
 
   isSumitLoading.value = false
 }
