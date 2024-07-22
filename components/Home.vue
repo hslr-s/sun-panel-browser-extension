@@ -5,6 +5,7 @@ import { NAlert, NButton, NCard, NForm, NFormItem, NImage, NInput, createDiscret
 import { Refresh as RefreshIcon } from '@vicons/ionicons5'
 import * as cheerio from 'cheerio'
 import { isValidHttpUrl } from '@/util/verifyRules'
+import { STip } from '@/components'
 
 defineProps({
   msg: String,
@@ -245,15 +246,21 @@ onMounted(() => {
 <template>
   <div class="my-2 text-lg font-bold text-zinc-700">
     <div class="flex items-center">
-      <div class="mr-5">
+      <div>
         {{ t('popup.addCurrentSiteToSunPanel') }}
       </div>
 
-      <NButton size="tiny" type="info" ghost circle @click="getIconAndUrl">
+      <STip class="mx-2 flex items-center">
+        <div class="max-w-[200px]">
+          {{ t('popup.functionDescription') }}
+        </div>
+      </STip>
+
+      <!-- <NButton size="tiny" type="info" ghost circle @click="getIconAndUrl">
         <template #icon>
           <RefreshIcon />
         </template>
-      </NButton>
+      </NButton> -->
     </div>
   </div>
 
@@ -266,7 +273,17 @@ onMounted(() => {
 
   <NCard style="border-radius: 1rem;margin-bottom: 20px;" size="small" embedded>
     <NForm ref="formRef" :label-width="80" :model="formValue" :rules="rules" size="small">
-      <NFormItem :label="t('popup.iconObtained')" path="iconUrl">
+      <NFormItem path="iconUrl">
+        <template #label>
+          <div class="flex items-center">
+            {{ t('popup.iconObtained') }}
+            <STip class="ml-2 flex items-center text-sm">
+              <div class="max-w-[200px]">
+                {{ t('popup.getIconUrlText') }}
+              </div>
+            </STip>
+          </div>
+        </template>
         <NImage
           v-for="icon, index in webSiteIcons"
           :key="index" preview-disabled
@@ -286,22 +303,22 @@ onMounted(() => {
       </NFormItem>
 
       <NFormItem :label="t('common.description')" path="description">
-        <NInput v-model:value="formValue.description" />
+        <NInput v-model:value="formValue.description" :disabled="openApiConfig.host === '' || openApiConfig.token === ''" />
       </NFormItem>
 
       <NFormItem :label="t('common.address')" path="url">
-        <NInput v-model:value="formValue.url" />
+        <NInput v-model:value="formValue.url" :disabled="openApiConfig.host === '' || openApiConfig.token === ''" />
       </NFormItem>
 
       <NFormItem :label="t('popup.lanAddress')" path="lanUrl">
-        <NInput v-model:value="formValue.lanUrl" />
+        <NInput v-model:value="formValue.lanUrl" :disabled="openApiConfig.host === '' || openApiConfig.token === ''" />
       </NFormItem>
 
       <NButton
         size="small"
         type="success"
         style="width: 100%;"
-        :disabled="isSaveSuccess"
+        :disabled="isSaveSuccess || openApiConfig.host === '' || openApiConfig.token === ''"
         :loading="isSumitLoading"
         @click="handleSave"
       >

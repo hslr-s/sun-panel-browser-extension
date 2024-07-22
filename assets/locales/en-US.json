@@ -89,6 +89,8 @@
     "tokenInvalid": "Token is invalid or expired",
     "addCurrentSiteToSunPanel": "Add this site to Sun-Panel",
     "lanAddress": "LAN address",
-    "iconObtained": "Obtained icons"
+    "iconObtained": "Obtained icons",
+    "getIconUrlText": "Currently, downloading online icons or uploading icon files to Sun Panel is not supported, only the online icon file address can be saved",
+    "functionDescription": "You can quickly save the currently visited website as an icon card group in the Sun Panel project that you have built yourself through this feature. Currently, it only supports saving to the first sorted group"
   }
 }
