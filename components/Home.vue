@@ -94,6 +94,7 @@ async function getUrl() {
   await browser.tabs.query({ active: true, currentWindow: true }).then((tabs) => {
     const currentTab = tabs[0]
     currentUrl.value = currentTab.url || ''
+    formValue.value.title = currentTab.title || ''
     // console.log(`当前页面地址是：${currentUrl.value}`)
   })
 }
@@ -201,7 +202,9 @@ async function submit() {
   }).catch((res) => {
     if (res.code === 1000) {
       ms.message.error(t('popup.tokenInvalid'))
+      return
     }
+    ms.message.error(`${t('popup.tokenInvalid')}-2000`)
   })
 
   isSumitLoading.value = false
