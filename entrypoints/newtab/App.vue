@@ -3,6 +3,7 @@ import { onMounted, ref } from 'vue'
 import { NButton, NCard, NConfigProvider } from 'naive-ui'
 import backgroundImg from '@/assets/defaultBackground.webp'
 import { useLanguage } from '@/hooks/useLanguage'
+import { push as statisticsPush } from '@/util/statistics'
 
 const { t } = useI18n()
 
@@ -78,7 +79,7 @@ function ping(url: string, attempts: number, timeout: number): Promise<number> {
 }
 
 onMounted(async () => {
-  // console.log(666)
+  statisticsPush()
   await storage.getItem<HomePageConfig>('local:homePageConfig').then((cfg) => {
     if (!cfg) {
       // ms.message.warning('请先配置首页地址')
