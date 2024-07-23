@@ -1,10 +1,11 @@
 import { v4 as uuidv4 } from 'uuid'
 import { postRequest } from './request'
 
-const host = 'http://192.168.3.136:3005/beApi/v1'
+// const host = 'http://192.168.3.136:3005/beApi/v1'
+const host = 'https://auth.sun-panel.top/beApi/v1'
 const version_name = browser.runtime.getManifest().version_name
 
-interface info {
+interface Info {
   version: string
   clientId: string
 }
@@ -17,7 +18,13 @@ function getLocalTimeZone(): string {
 
 // 设置推送时间
 function updatePushTimestamp() {
-  storage.setItem('local:pushTime', Date.now())
+  storage.setItem('local:pushTime', getSecondTimestamp())
+}
+
+function getSecondTimestamp() {
+  const now = new Date()
+  const timestamp = Math.floor(now.getTime() / 1000)
+  return timestamp
 }
 
 async function getLastPushTimestamp() {
@@ -33,16 +40,16 @@ async function getLastPushTimestamp() {
 async function getClientId() {
   let clientId = ''
   await storage.getItem<string>('local:clientId').then((localClientId) => {
-    console.log('local:clientId', localClientId)
+    // console.log('local:clientId', localClientId)
     clientId = localClientId || ''
   })
 
   if (clientId === '') {
-    console.log('generateUUID', clientId)
+    // console.log('generateUUID', clientId)
     clientId = generateUUID()
     storage.setItem<string>('local:clientId', clientId)
   }
-  console.log('clientId1', clientId)
+  // console.log('clientId1', clientId)
   return clientId
 }
 
@@ -54,9 +61,9 @@ function generateUUID() {
 export async function push() {
   const clientId = await getClientId()
   const lastTimestamp = await getLastPushTimestamp()
-  const currentTimestamp = Date.now()
+  const currentTimestamp = getSecondTimestamp()
 
-  const data: info = {
+  const data: Info = {
     version: version_name as string,
     clientId,
   }
@@ -66,14 +73,14 @@ export async function push() {
     postRequest({
       url: `${host}/statistics/push`,
       headers: {
-        lang: navigator.language,
-        timeZone: getLocalTimeZone(),
-        ltz: `${lastTimestamp}`,
-        tz: `${currentTimestamp}`,
+        lang: navigator.language, // 浏览器语言
+        timeZone: getLocalTimeZone(), // 时区
+        lts: `${lastTimestamp}`, // 上次时间戳
+        ts: `${currentTimestamp}`, // 本次时间戳
       },
       data,
     }).then(() => {
-      // 推送成功更新时间戳
+    // 推送成功更新时间戳
       updatePushTimestamp()
     })
   }
