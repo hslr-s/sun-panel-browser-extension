@@ -8,11 +8,15 @@ const { t } = useI18n()
 
 const { language } = useLanguage()
 
-interface HomePageConfig {
-  url: string
-  spareUrl: string
+interface HomePageConfig extends BaseType.HomePageConfig {
+
 }
 
+const homePageConfig = ref<HomePageConfig>({
+  url: '',
+  spareUrl: '',
+  homePageInIframe: false,
+})
 // const ms = createDiscreteApi(['message'])
 const isSetHomePageUrl = ref(true)
 const homePageUrl = ref('')
@@ -74,11 +78,6 @@ function ping(url: string, attempts: number, timeout: number): Promise<number> {
 }
 
 onMounted(async () => {
-  let homePageConfig: HomePageConfig = {
-    url: '',
-    spareUrl: '',
-  }
-
   // console.log(666)
   await storage.getItem<HomePageConfig>('local:homePageConfig').then((cfg) => {
     if (!cfg) {
@@ -87,7 +86,7 @@ onMounted(async () => {
       return
     }
 
-    homePageConfig = cfg
+    homePageConfig.value = cfg
   })
 
   if (!isSetHomePageUrl.value) {
@@ -95,21 +94,27 @@ onMounted(async () => {
   }
 
   // 没有备用地址直接打开地址
-  if (homePageConfig.spareUrl === '') {
-    homePageUrl.value = homePageConfig.url
-    // browser.tabs.update({ url: homePageConfig.url })
-    location.href = homePageConfig.url
+  if (homePageConfig.value.spareUrl === '') {
+    // browser.tabs.update({ url: homePageConfig.value.url })
+    homePageUrl.value = homePageConfig.value.url
+    if (!homePageConfig.value.homePageInIframe) {
+      location.href = homePageUrl.value
+    }
     return
   }
 
-  // console.log(homePageConfig.url)
-  await ping(homePageConfig.url, 2, 200).then(() => {
-    location.href = homePageConfig.url
-    homePageUrl.value = homePageConfig.url
-    // ms.message.success(`${homePageConfig.url} - ${msv}`)
+  // console.log(homePageConfig.value.url)
+  await ping(homePageConfig.value.url, 2, 200).then(() => {
+    homePageUrl.value = homePageConfig.value.url
+    if (!homePageConfig.value.homePageInIframe) {
+      location.href = homePageUrl.value
+    }
+    // ms.message.success(`${homePageConfig.value.url} - ${msv}`)
   }).catch((err) => {
-    location.href = homePageConfig.spareUrl
-    homePageUrl.value = homePageConfig.spareUrl
+    homePageUrl.value = homePageConfig.value.spareUrl
+    if (!homePageConfig.value.homePageInIframe) {
+      location.href = homePageUrl.value
+    }
     console.error(err)
     // ms.message.warning(`主要地址无法平通${homePageConfig.url}`)
   })
@@ -123,7 +128,7 @@ function handleGoSettingPage() {
 <template>
   <NConfigProvider :locale="language">
     <div class="background" :style="{ backgroundImage: `url(${backgroundImg})` }">
-      <!-- <iframe v-show="homePageUrl !== ''" id="iframe-sun-panel" :src="homePageUrl" frameborder="0" height="100%" width="100%" /> -->
+      <iframe v-show=" homePageUrl !== '' && homePageConfig.homePageInIframe" id="iframe-sun-panel" :src="homePageUrl" frameborder="0" height="100%" width="100%" />
       <div v-if="!isSetHomePageUrl">
         <div style="max-width: 80%;margin:50px auto">
           <NCard>

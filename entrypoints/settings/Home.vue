@@ -28,7 +28,7 @@ const homePageFormValue = ref<HomePageConfig>({
   homePageInIframe: false,
 })
 
-const appName = browser.runtime.getManifest().name
+// const appName = browser.runtime.getManifest().name
 // const themeOptions: { label: string, key: string, value: Theme }[] = [
 //   { label: '深色', key: 'dark', value: 'dark' },
 //   { label: '浅色', key: 'light', value: 'light' },
@@ -165,7 +165,7 @@ function handleChangeLanuage(value: Language) {
 
 <template>
   <div class="mx-auto max-w-[600px]">
-    <NH2>{{ appName }} {{ t('common.settings') }}</NH2>
+    <NH2>Sun-Panel <span class="text-sm">( For Browser Extension )</span> {{ t('common.settings') }}</NH2>
 
     <NCard style="border-radius: 1rem">
       <template #header>
@@ -217,7 +217,7 @@ function handleChangeLanuage(value: Language) {
 
         <NFormItem :label="t('settings.homePageInIframe')">
           <template #label>
-            <span class=" flex items-center">
+            <span class="flex items-center">
               {{ t('settings.homePageInIframe') }}（beta）
               <STip class="text-base flex items-center">
                 <div class=" max-w-[400px]">
