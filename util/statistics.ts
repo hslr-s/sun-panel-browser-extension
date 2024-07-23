@@ -1,8 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
 import { postRequest } from './request'
 
-// const host = 'http://192.168.3.136:3005/beApi/v1'
-const host = 'https://auth.sun-panel.top/beApi/v1'
+const host = import.meta.env.VITE_SERVER_HOST
 const version_name = browser.runtime.getManifest().version_name
 
 interface Info {
