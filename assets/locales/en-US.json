@@ -64,7 +64,9 @@
     "yes": "Yes",
     "settings": "Setting",
     "address": "Address",
-    "newTab": "New tab"
+    "newTab": "New tab",
+    "enable": "Enable",
+    "disable": "Disable"
   },
   "form": {
     "required": "Required field",
@@ -96,6 +98,6 @@
     "functionDescription": "You can quickly save the currently visited website as an icon card group in the Sun Panel project that you have built yourself through this feature. Currently, it only supports saving to the first sorted group"
   },
   "setting": {
-    "homePageInIframeTip": "This function is a (beta) function. When this function is turned on, the homepage you set will be opened in a built-in frame (iframe). When turned on, it can effectively increase the speed of page opening. \nPlease note that if the opening method in your Sun-Panel card is set to 'Open the current page', it will be inaccessible because some websites have disabled built-in frame access. At this time, you can set it to open in a new window or disable this function. \n."
+    "homePageInIframeTip": "This function is a (beta) function. When this function is turned on, the homepage you set will be opened in a built-in frame (iframe). When turned on, it can effectively increase the speed of page opening. \nPlease note that because some websites have disabled built-in frame access, if your Sun-Panel card has an opening mode set to 'Open the current page', it will be inaccessible. At this time, you can set it to open in a new window or disable this \nFunction."
   }
 }

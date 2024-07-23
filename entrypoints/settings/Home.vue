@@ -15,7 +15,7 @@ interface OpenAPIConfig extends BaseType.OpenAPIConfig {
 interface HomePageConfig extends BaseType.HomePageConfig {
 }
 
-const ms = createDiscreteApi(['message'])
+const ms = createDiscreteApi(['message', 'dialog'])
 const appStore = useAppStore()
 const openApiFormValue = ref<OpenAPIConfig>({
   host: '',
@@ -94,6 +94,20 @@ const languageValue = ref(appStore.language)
 watch(() => appStore.language, (value) => {
   languageValue.value = value
 })
+
+function handleUpdatehomePageInIframe(v: boolean) {
+  if (v) {
+    ms.dialog.warning({
+      title: t('common.warning'),
+      content: t('setting.homePageInIframeTip'),
+      positiveText: t('common.enable'),
+      negativeText: t('common.disable'),
+      onNegativeClick: () => {
+        homePageFormValue.value.homePageInIframe = false
+      },
+    })
+  }
+}
 
 onMounted(() => {
   getConfig()
@@ -226,7 +240,7 @@ function handleChangeLanuage(value: Language) {
               </STip>
             </span>
           </template>
-          <NSwitch v-model:value="homePageFormValue.homePageInIframe" />
+          <NSwitch v-model:value="homePageFormValue.homePageInIframe" @update:value="handleUpdatehomePageInIframe" />
         </NFormItem>
 
         <NFormItem>
