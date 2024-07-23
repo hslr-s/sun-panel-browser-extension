@@ -128,7 +128,12 @@ function handleGoSettingPage() {
 <template>
   <NConfigProvider :locale="language">
     <div class="background" :style="{ backgroundImage: `url(${backgroundImg})` }">
-      <iframe v-show=" homePageUrl !== '' && homePageConfig.homePageInIframe" id="iframe-sun-panel" :src="homePageUrl" frameborder="0" height="100%" width="100%" />
+      <iframe
+        v-show=" homePageUrl !== '' && homePageConfig.homePageInIframe"
+        id="iframe-sun-panel" class="fade-in-animation"
+        :src="homePageUrl" frameborder="0"
+        height="100%" width="100%"
+      />
       <div v-if="!isSetHomePageUrl">
         <div style="max-width: 80%;margin:50px auto">
           <NCard>
@@ -163,5 +168,19 @@ html ,body {
     color: #213547;
     background-color: #ffffff;
   }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in-animation {
+  animation: fadeIn 0.2s ease-in-out;
 }
 </style>
