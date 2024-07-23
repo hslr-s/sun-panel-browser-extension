@@ -266,7 +266,10 @@ function handleChangeLanuage(value: Language) {
 
       <NForm ref="openApiFormRef" :label-width="80" :model="openApiFormValue" :rules="openApiRules" size="small">
         <NFormItem :label="t('common.address')" path="host">
-          <NInput v-model:value="openApiFormValue.host" />
+          <template #label>
+            {{ t('common.address') }} (eg: http://192.168.3.100:3002/openapi/v1)
+          </template>
+          <NInput v-model:value="openApiFormValue.host" placeholder="eg: http://192.168.3.100:3002/openapi/v1" />
         </NFormItem>
         <NFormItem label="Token" path="token">
           <NInput v-model:value="openApiFormValue.token" type="password" />

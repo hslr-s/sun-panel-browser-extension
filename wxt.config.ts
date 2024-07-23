@@ -14,7 +14,7 @@ export default defineConfig({
     ],
   }),
   manifest: {
-    permissions: ['storage', 'scripting', 'activeTab', 'contextMenus'],
+    permissions: ['storage'],
     // name: 'Sun-Panel BE',
     version: '0.1.1',
     version_name: '0.1.1-beta',
