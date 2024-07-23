@@ -94,26 +94,46 @@ onMounted(async () => {
     return
   }
 
+  init()
+
   // 没有备用地址直接打开地址
   if (homePageConfig.spareUrl === '') {
     homePageUrl.value = homePageConfig.url
     // browser.tabs.update({ url: homePageConfig.url })
-    location.href = homePageConfig.url
+    // location.href = homePageConfig.url
     return
   }
 
   // console.log(homePageConfig.url)
   await ping(homePageConfig.url, 2, 200).then(() => {
-    location.href = homePageConfig.url
+    // location.href = homePageConfig.url
     homePageUrl.value = homePageConfig.url
     // ms.message.success(`${homePageConfig.url} - ${msv}`)
   }).catch((err) => {
-    location.href = homePageConfig.spareUrl
+    // location.href = homePageConfig.spareUrl
     homePageUrl.value = homePageConfig.spareUrl
     console.error(err)
     // ms.message.warning(`主要地址无法平通${homePageConfig.url}`)
   })
 })
+
+function init() {
+  browser.webNavigation.getFrame({
+    tabId: 1,
+    frameId: 2,
+  })
+  // browser.webNavigation.getFrame({
+  //   tabId: 1,
+  //   frameId: 2,
+  // }, (details) => {
+  //   if (browser.runtime.lastError) {
+  //     console.error('Error: ', chrome.runtime.lastError)
+  //   }
+  //   else {
+  //     console.log('Frame Details: ', details)
+  //   }
+  // })
+}
 
 function handleGoSettingPage() {
   location.href = 'settings.html'
@@ -123,7 +143,7 @@ function handleGoSettingPage() {
 <template>
   <NConfigProvider :locale="language">
     <div class="background" :style="{ backgroundImage: `url(${backgroundImg})` }">
-      <!-- <iframe v-show="homePageUrl !== ''" id="iframe-sun-panel" :src="homePageUrl" frameborder="0" height="100%" width="100%" /> -->
+      <iframe v-show="homePageUrl !== ''" id="iframe-sun-panel" :src="homePageUrl" frameborder="0" height="100%" width="100%" />
       <div v-if="!isSetHomePageUrl">
         <div style="max-width: 80%;margin:50px auto">
           <NCard>
