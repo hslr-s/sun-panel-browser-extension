@@ -1,21 +1,18 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
-import { NAlert, NButton, NCard, NForm, NFormItem, NH1, NH2, NInput, NSelect, NTag, createDiscreteApi } from 'naive-ui'
+import { NAlert, NButton, NCard, NDivider, NForm, NFormItem, NH1, NH2, NInput, NSelect, NSwitch, createDiscreteApi } from 'naive-ui'
 import type { FormInst, FormItemRule } from 'naive-ui'
 import type { Language, Theme } from '@/store/modules/app/helper'
 import { useAppStore } from '@/store'
 import { isValidHttpUrl } from '@/util/verifyRules'
+import { STip } from '@/components'
 
 const { t, locale } = useI18n()
 
-interface OpenAPIConfig {
-  host: string
-  token: string
+interface OpenAPIConfig extends BaseType.OpenAPIConfig {
 }
 
-interface HomePageConfig {
-  url: string
-  spareUrl: string
+interface HomePageConfig extends BaseType.HomePageConfig {
 }
 
 const ms = createDiscreteApi(['message'])
@@ -28,6 +25,7 @@ const openApiFormValue = ref<OpenAPIConfig>({
 const homePageFormValue = ref<HomePageConfig>({
   url: '',
   spareUrl: '',
+  homePageInIframe: false,
 })
 
 const appName = browser.runtime.getManifest().name
@@ -195,21 +193,40 @@ function handleChangeLanuage(value: Language) {
 
     <NCard style="border-radius: 1rem;margin-top: 10px;">
       <template #header>
-        {{ t('settings.homePageUrl') }}
+        {{ t('common.newTab') }}
       </template>
 
-      <div class="my-2">
-        <NAlert type="info" closable size="small">
-          {{ t('settings.homePageUrlNote') }}
-        </NAlert>
-      </div>
       <NForm ref="homePageFormRef" :label-width="80" :model="homePageFormValue" :rules="homePageRules" size="small">
+        <!-- <NDivider title-placement="left">
+          {{ t('settings.homePageUrl') }}
+        </NDivider> -->
+
+        <div class="my-2">
+          <NAlert type="info" closable size="small">
+            {{ t('settings.homePageUrlNote') }}
+          </NAlert>
+        </div>
+
         <NFormItem :label="t('settings.mainUrl')" path="url">
           <NInput v-model:value="homePageFormValue.url" />
         </NFormItem>
 
         <NFormItem :label="t('settings.spareUrl')" path="spareUrl">
           <NInput v-model:value="homePageFormValue.spareUrl" />
+        </NFormItem>
+
+        <NFormItem :label="t('settings.homePageInIframe')">
+          <template #label>
+            <span class=" flex items-center">
+              {{ t('settings.homePageInIframe') }}（beta）
+              <STip class="text-base flex items-center">
+                <div class=" max-w-[400px]">
+                  {{ t('setting.homePageInIframeTip') }}
+                </div>
+              </STip>
+            </span>
+          </template>
+          <NSwitch v-model:value="homePageFormValue.homePageInIframe" />
         </NFormItem>
 
         <NFormItem>

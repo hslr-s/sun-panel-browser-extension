@@ -63,7 +63,8 @@
     "warning": "警告",
     "yes": "是",
     "settings": "设置",
-    "address": "地址"
+    "address": "地址",
+    "newTab": "新标签页"
   },
   "form": {
     "required": "必填项",
@@ -77,7 +78,8 @@
     "mainUrl": "主要地址",
     "spareUrl": "备用地址",
     "homePageUrlNote": "当点击新标签页的时候，会自动跳转到首页地址，优先使用主要地址，如果主要地址链接不通的使用会使用备用地址。当您有内网和公网两个地址，推荐主要地址填写为内网地址。",
-    "openAPINote": "通过 Sun-Panel 的 OpenAPI 来创建当前页面的图标，需要 Sun-Panel 版本在 {version}"
+    "openAPINote": "通过 Sun-Panel 的 OpenAPI 来创建当前页面的图标，需要 Sun-Panel 版本在 {version}",
+    "homePageInIframe": "内嵌显示首页"
   },
   "homePage": {
     "noSetHomePageUrl": "还未设置首页地址，请点击前往设置"
@@ -92,5 +94,8 @@
     "iconObtained": "获取到的图标",
     "getIconUrlText": "暂时不支持下载在线图标或上传图标文件到Sun-Panel中，只能保存在线图标文件地址",
     "functionDescription": "您可以通过此功能快速把当前访问的网站保存为您自己搭建的 Sun-Panel 项目的图标卡片分组中，目前仅支持保存到排序第一个的分组"
+  },
+  "setting": {
+    "homePageInIframeTip": "此功能为（beta）功能，开启此功能，将在内置框架（iframe）中打开您设置的首页，开启后可以有效的提升页面打开的速度。请注意如果您的 Sun-Panel 卡片中有打开方式设置为'当前页面打开'的，由于一些网站禁用了内置框架访问，将会无法访问，此时可以将它设置为新窗口打开或者禁用此功能。"
   }
 }

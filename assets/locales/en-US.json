@@ -63,7 +63,8 @@
     "warning": "Warning",
     "yes": "Yes",
     "settings": "Setting",
-    "address": "Address"
+    "address": "Address",
+    "newTab": "New tab"
   },
   "form": {
     "required": "Required field",
@@ -77,7 +78,8 @@
     "mainUrl": "Main address",
     "spareUrl": "Alternate address",
     "homePageUrlNote": "When you click the new tab page, it will automatically jump to the home page address. The primary address will be used first. If the link to the primary address is unavailable, the backup address will be used. \nWhen you have both intranet and public network addresses, it is recommended that the main address be filled in as the intranet address.",
-    "openAPINote": "To create the icon of the current page through Sun-Panel's OpenAPI, the Sun-Panel version is required to be in {version}"
+    "openAPINote": "To create the icon of the current page through Sun-Panel's OpenAPI, the Sun-Panel version is required to be in {version}",
+    "homePageInIframe": "Display homepage inline"
   },
   "homePage": {
     "noSetHomePageUrl": "The homepage address has not been set yet, please click to go to settings."
@@ -92,5 +94,8 @@
     "iconObtained": "Obtained icons",
     "getIconUrlText": "Currently, downloading online icons or uploading icon files to Sun Panel is not supported, only the online icon file address can be saved",
     "functionDescription": "You can quickly save the currently visited website as an icon card group in the Sun Panel project that you have built yourself through this feature. Currently, it only supports saving to the first sorted group"
+  },
+  "setting": {
+    "homePageInIframeTip": "This function is a (beta) function. When this function is turned on, the homepage you set will be opened in a built-in frame (iframe). When turned on, it can effectively increase the speed of page opening. \nPlease note that if the opening method in your Sun-Panel card is set to 'Open the current page', it will be inaccessible because some websites have disabled built-in frame access. At this time, you can set it to open in a new window or disable this function. \n."
   }
 }
