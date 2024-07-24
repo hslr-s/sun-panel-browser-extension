@@ -99,7 +99,7 @@ onMounted(async () => {
     // browser.tabs.update({ url: homePageConfig.value.url })
     homePageUrl.value = homePageConfig.value.url
     if (!homePageConfig.value.homePageInIframe) {
-      location.href = homePageUrl.value
+      openToPage(homePageUrl.value)
     }
     return
   }
@@ -108,18 +108,22 @@ onMounted(async () => {
   await ping(homePageConfig.value.url, 2, 200).then(() => {
     homePageUrl.value = homePageConfig.value.url
     if (!homePageConfig.value.homePageInIframe) {
-      location.href = homePageUrl.value
+      openToPage(homePageUrl.value)
     }
     // ms.message.success(`${homePageConfig.value.url} - ${msv}`)
   }).catch((err) => {
     homePageUrl.value = homePageConfig.value.spareUrl
     if (!homePageConfig.value.homePageInIframe) {
-      location.href = homePageUrl.value
+      openToPage(homePageUrl.value)
     }
     console.error(err)
     // ms.message.warning(`主要地址无法平通${homePageConfig.url}`)
   })
 })
+
+function openToPage(url: string) {
+  location.href = url
+}
 
 function handleGoSettingPage() {
   location.href = 'settings.html'
@@ -128,13 +132,15 @@ function handleGoSettingPage() {
 
 <template>
   <NConfigProvider :locale="language">
-    <div class="background" :style="{ backgroundImage: `url(${backgroundImg})` }">
+    <div class="background h-full" :style="{ backgroundImage: `url(${backgroundImg})` }">
+      <!-- <div v-if="homePageUrl !== '' && homePageConfig.homePageInIframe"> -->
       <iframe
-        v-show=" homePageUrl !== '' && homePageConfig.homePageInIframe"
+        v-if="homePageUrl !== '' && homePageConfig.homePageInIframe"
         id="iframe-sun-panel" class="fade-in-animation"
         :src="homePageUrl" frameborder="0"
         height="100%" width="100%"
       />
+      <!-- </div> -->
       <div v-if="!isSetHomePageUrl">
         <div style="max-width: 80%;margin:50px auto">
           <NCard>

@@ -16,8 +16,8 @@ export default defineConfig({
   manifest: {
     permissions: ['storage'],
     // name: 'Sun-Panel BE',
-    version: '0.1.1',
-    version_name: '0.1.1-beta',
+    version: '0.1.2',
+    version_name: '0.1.2-beta',
     host_permissions: ['https://*/*', 'http://*/*', '*://*/*'],
     name: '__MSG_extName__',
     description: '__MSG_extDescription__',

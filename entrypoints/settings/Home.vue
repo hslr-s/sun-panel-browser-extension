@@ -241,10 +241,10 @@ function handleChangeLanuage(value: Language) {
           <NInput v-model:value="homePageFormValue.spareUrl" />
         </NFormItem>
 
-        <NFormItem :label="t('settings.homePageInIframe')">
+        <NFormItem>
           <template #label>
             <span class="flex items-center text-slate-500 font-bold">
-              {{ t('settings.homePageInIframe') }}（beta）
+              [Beta] {{ t('settings.homePageInIframe') }}
               <STip class="text-base flex items-center">
                 <div class=" max-w-[400px]">
                   {{ t('setting.homePageInIframeTip') }}

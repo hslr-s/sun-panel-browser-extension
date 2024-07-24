@@ -81,7 +81,7 @@
     "spareUrl": "Alternate address",
     "homePageUrlNote": "When you click the new tab page, it will automatically jump to the home page address. The primary address will be used first. If the link to the primary address is unavailable, the backup address will be used. \nWhen you have both intranet and public network addresses, it is recommended that the main address be filled in as the intranet address.",
     "openAPINote": "Requires Sun-Panel version in {version}",
-    "homePageInIframe": "Display homepage in inline frame",
+    "homePageInIframe": "Open the homepage in an inline frame (fast)",
     "guideOpenAPI": "Through System Application Launcher -> OpenAPI -> Enable, you can view the address and Token. If the address only contains the domain name, you need to add the path (path example: /openapi/v1)."
   },
   "homePage": {
@@ -99,6 +99,6 @@
     "functionDescription": "You can quickly save the currently visited website as an icon card group in the Sun Panel project that you have built yourself through this feature. Currently, it only supports saving to the first sorted group"
   },
   "setting": {
-    "homePageInIframeTip": "This function is a (beta) function. When this function is turned on, the homepage you set will be opened in a built-in frame (iframe). When turned on, it can effectively increase the speed of page opening. \nPlease note that because some websites have disabled built-in frame access, if your Sun-Panel card has an opening mode set to 'Open the current page', it will be inaccessible. At this time, you can set it to open in a new window or disable this \nFunction."
+    "homePageInIframeTip": "Turning on this function will open the homepage you set in a built-in frame (iframe). Turning it on can effectively improve the page opening speed. \nPlease note that because some websites have disabled built-in frame access, if your Sun-Panel card has an opening mode set to 'Open the current page', it will be inaccessible. At this time, you can set it to open in a new window or disable this \nFunction."
   }
 }
