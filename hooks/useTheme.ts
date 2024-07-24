@@ -5,10 +5,9 @@ import { useAppStore } from '@/store'
 
 export function useTheme() {
   const appStore = useAppStore()
-
   const OsTheme = useOsTheme()
 
-  console.log(OsTheme.value)
+  // console.log(OsTheme.value)
 
   const isDark = computed(() => {
     if (appStore.theme === 'auto')
@@ -33,7 +32,7 @@ export function useTheme() {
   watch(
     () => isDark.value,
     (dark) => {
-      console.log('更新主题', 'isDark', dark)
+      // console.log('更新主题', 'isDark', dark)
       if (dark) {
         document.documentElement.classList.add('dark')
       }
