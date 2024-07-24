@@ -71,7 +71,7 @@
   "form": {
     "required": "Required field",
     "error": "Please fill in the form content correctly",
-    "httpUrlIncorrect": "Is not a valid HTTP address",
+    "httpUrlIncorrect": "Not a valid HTTP address, please start with 'https://' or 'http://'",
     "maxLimit": "Cannot exceed {length} characters in length"
   },
   "settings": {

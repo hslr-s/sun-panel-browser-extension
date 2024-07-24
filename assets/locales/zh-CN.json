@@ -71,7 +71,7 @@
   "form": {
     "required": "必填项",
     "error": "请正确填写表单内容",
-    "httpUrlIncorrect": "不是一个有效的HTTP地址",
+    "httpUrlIncorrect": "不是一个有效的HTTP地址，请以 ‘https://’ 或者‘http://’ 开头",
     "maxLimit": "长度不能超过{length}个字符"
   },
   "settings": {
