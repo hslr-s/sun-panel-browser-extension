@@ -131,7 +131,7 @@ function handleSaveHomePageConfig(e: MouseEvent) {
   e.preventDefault()
   homePageFormRef.value?.validate((errors) => {
     if (!errors) {
-      storage.setItem('local:homePageConfig', homePageFormValue.value).then(() => {
+      storage.setItem('local:homePageConfig', { ...homePageFormValue.value }).then(() => {
         ms.message.success(t('common.saveSuccess'))
       }).catch((err) => {
         ms.message.error(t('common.saveFail'))
@@ -149,7 +149,7 @@ function handleSaveOpenAPIConfig(e: MouseEvent) {
   e.preventDefault()
   openApiFormRef.value?.validate((errors) => {
     if (!errors) {
-      storage.setItem('local:openAPIConfig', openApiFormValue.value).then(() => {
+      storage.setItem('local:openAPIConfig', { ...openApiFormValue.value }).then(() => {
         ms.message.success(t('common.saveSuccess'))
       }).catch((err) => {
         ms.message.error(t('common.saveFail'))

@@ -1,22 +1,21 @@
-import { storage } from "wxt/storage";
+import { storage } from 'wxt/storage'
 
-export const sessionStartTime =
-  storage.defineItem<number>("session:start-time");
+export const sessionStartTime
+  = storage.defineItem<number>('session:start-time')
 
+// function setLocalStorage(key: string, value: any): void {
+//   localStorage.setItem(key, JSON.stringify(value))
+// }
 
-function setLocalStorage(key: string, value: any): void {
-    localStorage.setItem(key, JSON.stringify(value));
-}
+// function getLocalStorage<T>(key: string): T | null {
+//   const item = localStorage.getItem(key)
+//   return item ? JSON.parse(item) : null
+// }
 
-function getLocalStorage<T>(key: string): T | null {
-    const item = localStorage.getItem(key);
-    return item ? JSON.parse(item) : null;
-}
+// function removeLocalStorage(key: string): void {
+//   localStorage.removeItem(key)
+// }
 
-function removeLocalStorage(key: string): void {
-    localStorage.removeItem(key);
-}
-
-function clearLocalStorage(): void {
-    localStorage.clear();
-}
+// function clearLocalStorage(): void {
+//   localStorage.clear()
+// }

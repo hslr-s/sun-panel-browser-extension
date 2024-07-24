@@ -9,7 +9,6 @@ export type Language = 'zh-CN' | 'en-US'
 export interface AppState {
   theme: Theme
   language: Language
-  siteSetting: GlobalSetting.SiteSetting
 }
 
 export function defaultSetting(): AppState {
@@ -18,13 +17,7 @@ export function defaultSetting(): AppState {
   if (lan.includes('zh'))
     language = 'zh-CN'
 
-  const siteSetting: GlobalSetting.SiteSetting = {
-    title: 'Sun-Panel',
-    favicoUrl: '',
-    loginBackgroundUrl: loginDefaultBackgroundUrl,
-  }
-
-  return { theme: 'auto', language, siteSetting }
+  return { theme: 'auto', language }
 }
 
 export async function getLocalSetting(): Promise<AppState> {
