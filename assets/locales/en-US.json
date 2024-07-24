@@ -80,8 +80,9 @@
     "mainUrl": "Main address",
     "spareUrl": "Alternate address",
     "homePageUrlNote": "When you click the new tab page, it will automatically jump to the home page address. The primary address will be used first. If the link to the primary address is unavailable, the backup address will be used. \nWhen you have both intranet and public network addresses, it is recommended that the main address be filled in as the intranet address.",
-    "openAPINote": "To create the icon of the current page through Sun-Panel's OpenAPI, the Sun-Panel version is required to be in {version}",
-    "homePageInIframe": "Display homepage in inline frame"
+    "openAPINote": "Requires Sun-Panel version in {version}",
+    "homePageInIframe": "Display homepage in inline frame",
+    "guideOpenAPI": "Through System Application Launcher -> OpenAPI -> Enable, you can view the address and Token. If the address only contains the domain name, you need to add the path (path example: /openapi/v1)."
   },
   "homePage": {
     "noSetHomePageUrl": "The homepage address has not been set yet, please click to go to settings."

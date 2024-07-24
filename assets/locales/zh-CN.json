@@ -80,8 +80,9 @@
     "mainUrl": "主要地址",
     "spareUrl": "备用地址",
     "homePageUrlNote": "当点击新标签页的时候，会自动跳转到首页地址，优先使用主要地址，如果主要地址链接不通的使用会使用备用地址。当您有内网和公网两个地址，推荐主要地址填写为内网地址。",
-    "openAPINote": "通过 Sun-Panel 的 OpenAPI 来创建当前页面的图标，需要 Sun-Panel 版本在 {version}",
-    "homePageInIframe": "在内嵌框架显示首页"
+    "openAPINote": "需要 Sun-Panel 版本在 {version}",
+    "homePageInIframe": "在内嵌框架显示首页",
+    "guideOpenAPI": "通过 系统应用启动器 -> OpenAPI -> 开启，即可查看到地址和Token，如果地址仅包含域名，还需加路径（路径示例：/openapi/v1）。"
   },
   "homePage": {
     "noSetHomePageUrl": "还未设置首页地址，请点击前往设置"

@@ -178,8 +178,10 @@ function handleChangeLanuage(value: Language) {
 </script>
 
 <template>
-  <div class="mx-auto max-w-[600px]">
-    <NH2>Sun-Panel <span class="text-sm">( For Browser Extension )</span> {{ t('common.settings') }}</NH2>
+  <div class="mx-auto max-w-[600px] my-20">
+    <NH2 class="font-bold">
+      Sun-Panel <span class="text-sm">( For Browser Extension )</span> {{ t('common.settings') }}
+    </NH2>
 
     <NCard style="border-radius: 1rem">
       <template #header>
@@ -221,17 +223,27 @@ function handleChangeLanuage(value: Language) {
           </NAlert>
         </div>
 
-        <NFormItem :label="t('settings.mainUrl')" path="url">
+        <NFormItem path="url">
+          <template #label>
+            <div class="text-slate-500 font-bold">
+              {{ t('settings.mainUrl') }}
+            </div>
+          </template>
           <NInput v-model:value="homePageFormValue.url" />
         </NFormItem>
 
-        <NFormItem :label="t('settings.spareUrl')" path="spareUrl">
+        <NFormItem path="spareUrl">
+          <template #label>
+            <div class="text-slate-500 font-bold">
+              {{ t('settings.spareUrl') }}
+            </div>
+          </template>
           <NInput v-model:value="homePageFormValue.spareUrl" />
         </NFormItem>
 
         <NFormItem :label="t('settings.homePageInIframe')">
           <template #label>
-            <span class="flex items-center">
+            <span class="flex items-center text-slate-500 font-bold">
               {{ t('settings.homePageInIframe') }}（beta）
               <STip class="text-base flex items-center">
                 <div class=" max-w-[400px]">
@@ -261,17 +273,30 @@ function handleChangeLanuage(value: Language) {
       <div class="my-2">
         <NAlert type="info" closable size="small">
           {{ t('settings.openAPINote', { version: "v1.4.0-beta24-04-11+" }) }}
+          <p class="mt-2">
+            {{ t("settings.guideOpenAPI") }}
+          </p>
         </NAlert>
       </div>
 
       <NForm ref="openApiFormRef" :label-width="80" :model="openApiFormValue" :rules="openApiRules" size="small">
-        <NFormItem :label="t('common.address')" path="host">
+        <NFormItem path="host">
           <template #label>
-            {{ t('common.address') }} (eg: http://192.168.3.100:3002/openapi/v1)
+            <span class="text-slate-500 font-bold">
+              {{ t('common.address') }}
+            </span>
+            <span class="text-slate-400">
+              (eg: http://192.168.3.100:3002/openapi/v1)
+            </span>
           </template>
           <NInput v-model:value="openApiFormValue.host" placeholder="eg: http://192.168.3.100:3002/openapi/v1" />
         </NFormItem>
         <NFormItem label="Token" path="token">
+          <template #label>
+            <span class="text-slate-500 font-bold">
+              Token
+            </span>
+          </template>
           <NInput v-model:value="openApiFormValue.token" type="password" />
         </NFormItem>
         <NFormItem>
