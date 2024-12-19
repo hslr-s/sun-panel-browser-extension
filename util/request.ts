@@ -22,11 +22,8 @@ let openApiConfig: OpenAPIConfig = {
   token: '',
 }
 
-storage.getItem<OpenAPIConfig>('local:openAPIConfig').then((cfg) => {
-  if (cfg) {
-    openApiConfig = cfg as OpenAPIConfig
-  }
-})
+// 获取openApiConfig
+getOpenApiConfig()
 
 // async function httpPost({ url, headers = {}, data }: PostRequestParam) {
 //   return await fetch(url, {
@@ -60,7 +57,21 @@ export async function postRequest<T>({ url, headers = {}, data }: RequestParam):
   return jsonResponse
 }
 
+async function getOpenApiConfig() {
+  await storage.getItem<OpenAPIConfig>('local:openAPIConfig').then((cfg) => {
+    if (cfg) {
+      openApiConfig = cfg as OpenAPIConfig
+    }
+  })
+}
+
 export async function postOpenApiRequest<T>({ url, headers = {}, data }: RequestParam): Promise<PostResponse<T>> {
+  // if (openApiConfig.host === '' || openApiConfig.token === '') {
+  //   getOpenApiConfig()
+  // }
+
+  // console.log(openApiConfig);
+
   (headers as Record<string, string>).token = openApiConfig.token
   url = removeTrailingSlash(openApiConfig.host) + url
   return postRequest<T>({ url, headers, data })

@@ -63,10 +63,15 @@
     "warning": "警告",
     "yes": "是",
     "settings": "设置",
-    "address": "地址",
     "newTab": "新标签页",
     "enable": "启用",
-    "disable": "禁用"
+    "disable": "禁用",
+    "defaultAddress": "默认地址",
+    "urlAddress": "URL 地址",
+    "connectionTest": "连接测试",
+    "connectionTestSuccess": "成功连接，",
+    "connectionTestFail": "连接测试失败，可能原因：URL 地址或者Token填写错误。如果Sun-Panel版本低于v1.7.0，是不支持测试连接的，但是其他功能可以正常使用",
+    "unSupportSunPanelVersionWarning": "需要 Sun-Panel 是 {version} 及以上版本"
   },
   "form": {
     "required": "必填项",
@@ -82,7 +87,8 @@
     "homePageUrlNote": "当点击新标签页的时候，会自动跳转到首页地址，优先使用主要地址，如果主要地址链接不通的使用会使用备用地址。当您有内网和公网两个地址，推荐主要地址填写为内网地址。",
     "openAPINote": "需要 Sun-Panel 版本在 {version}",
     "homePageInIframe": "内嵌框架打开首页（速度快）",
-    "guideOpenAPI": "通过 系统应用启动器 -> OpenAPI -> 开启，即可查看到地址和Token，如果地址仅包含域名，还需加路径（路径示例：/openapi/v1）。"
+    "guideOpenAPI": "通过 系统应用启动器 -> OpenAPI -> 开启，即可查看到地址和Token，如果地址仅包含域名，还需加路径（路径示例：/openapi/v1）。",
+    "connectionTestSuccess": "测试通过，当前自托管的 Sun-Panel 版本号为：{version}，版本序号为：{versionCode}"
   },
   "homePage": {
     "noSetHomePageUrl": "还未设置首页地址，请点击前往设置"
@@ -95,8 +101,12 @@
     "addCurrentSiteToSunPanel": "将本站添加到 Sun-Panel",
     "lanAddress": "内网的地址",
     "iconObtained": "获取到的图标",
-    "getIconUrlText": "暂时不支持下载在线图标或上传图标文件到Sun-Panel中，只能保存在线图标文件地址",
-    "functionDescription": "您可以通过此功能快速把当前访问的网站保存为您自己搭建的 Sun-Panel 项目的图标卡片分组中，目前仅支持保存到排序第一个的分组"
+    "functionDescription": "您可以通过此功能快速把当前访问的网站信息保存到您自托管的 Sun-Panel 项目的图标卡片分组中",
+    "itemGroup": "分组",
+    "saveIcon": "同时保存图标文件",
+    "unSupportSunPanelVersionGroupWarning": "当前会默认保存到第一个分组",
+    "unSupportSunPanelVersionSaveIconWarning": "当前会保存图标的在线链接",
+    "saveIconFileText": "会将图标文件保存在自托管的项目中，并使用项目本地的图片链接，可以在上传文件管理中查看"
   },
   "setting": {
     "homePageInIframeTip": "开启此功能，将在内置框架（iframe）中打开设置的首页，开启后可以有效的提升页面打开的速度。请注意，由于一些网站禁用了内置框架访问，如果您的 Sun-Panel 卡片中有打开方式设置为'当前页面打开'的，将会无法访问，此时可以将它设置为新窗口打开或者禁用此功能。"

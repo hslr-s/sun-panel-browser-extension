@@ -6,6 +6,8 @@ import type { Language, Theme } from '@/store/modules/app/helper'
 import { useAppStore } from '@/store'
 import { isValidHttpUrl } from '@/util/verifyRules'
 import { STip } from '@/components'
+import { getSunPanelVersion } from '@/api'
+import { removeTrailingSlash } from '@/util/cmn'
 
 const { t, locale } = useI18n()
 
@@ -170,6 +172,20 @@ function handleChangeLanuage(value: Language) {
   // location.reload()
 }
 
+function handleConnectionTest() {
+  getSunPanelVersion<SunPanelVersion.Info>(openApiFormValue.value.host, openApiFormValue.value.token).then(({ data }) => {
+    ms.message.success(t('settings.connectionTestSuccess', { version: `v${data.version}`, versionCode: data.versionCode }), {
+      closable: true,
+      duration: 10000,
+    })
+  }).catch((err) => {
+    ms.message.error(t('common.connectionTestFail'), {
+      closable: true,
+      duration: 20000,
+    })
+    console.error(err)
+  })
+}
 // function handleChangeTheme(value: Theme) {
 //   themeValue.value = value
 //   appStore.setTheme(value)
@@ -283,7 +299,7 @@ function handleChangeLanuage(value: Language) {
         <NFormItem path="host">
           <template #label>
             <span class="text-slate-500 font-bold">
-              {{ t('common.address') }}
+              {{ t('common.urlAddress') }}
             </span>
             <span class="text-slate-400">
               (eg: http://192.168.3.100:3002/openapi/v1)
@@ -298,7 +314,11 @@ function handleChangeLanuage(value: Language) {
             </span>
           </template>
           <NInput v-model:value="openApiFormValue.token" type="password" />
+          <NButton attr-type="button" type="info" :disabled="openApiFormValue.host === '' || openApiFormValue.token === ''" @click="handleConnectionTest">
+            {{ t('common.connectionTest') }}
+          </NButton>
         </NFormItem>
+
         <NFormItem>
           <NButton attr-type="button" type="success" @click="handleSaveOpenAPIConfig">
             {{ t('common.save') }}

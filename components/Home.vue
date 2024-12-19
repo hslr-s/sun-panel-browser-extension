@@ -1,12 +1,15 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
 import type { FormInst, FormItemRule } from 'naive-ui'
-import { NAlert, NButton, NCard, NForm, NFormItem, NImage, NInput, createDiscreteApi } from 'naive-ui'
+import { NAlert, NButton, NCard, NCheckbox, NFlex, NForm, NFormItem, NImage, NInput, NSelect, createDiscreteApi } from 'naive-ui'
 import { Refresh as RefreshIcon } from '@vicons/ionicons5'
 import * as cheerio from 'cheerio'
 import { isValidHttpUrl } from '@/util/verifyRules'
 import { STip } from '@/components'
 import { postRequest } from '@/util/request'
+import { supportedSunPanelVersion } from '@/util/versionComparison'
+import { removeTrailingSlash } from '@/util/cmn'
+import { getSunPanelVersion } from '@/api'
 
 defineProps({
   msg: String,
@@ -22,12 +25,25 @@ interface ImageListItem {
   checked: boolean
 }
 
+interface ItemGroupListItem {
+  onlyName: string
+  title: string
+  itemGroupID: number
+}
+
+interface ListResp<T> {
+  list: T
+  count: number
+}
+
 const formRef = ref<FormInst | null>(null)
 const ms = createDiscreteApi(['message'])
 const currentUrl = ref('')
 const webSiteIcons = ref<ImageListItem[]>([])
 const isSumitLoading = ref(false)
 const isSaveSuccess = ref(false)
+const itemGroupList = ref<ItemGroupListItem[]>([])
+const sunPanelVersion = ref('')
 const openApiConfig = ref<OpenAPIConfig>({
   host: '',
   token: '',
@@ -38,6 +54,8 @@ const formValue = ref({
   lanUrl: '',
   iconUrl: '',
   description: '',
+  itemGroupID: 0,
+  isSaveIcon: true,
 })
 
 const rules = {
@@ -99,6 +117,26 @@ async function getUrl() {
   })
 }
 
+async function getItemGroupList() {
+  const url = `${removeTrailingSlash(openApiConfig.value.host)}/itemGroup/getList`
+  await postRequest<ListResp<ItemGroupListItem[]>>({
+    url,
+    headers: { token: openApiConfig.value.token },
+    data: {},
+  }).then(({ data }) => {
+    itemGroupList.value = data.list
+    if (data.list.length > 0) {
+      formValue.value.itemGroupID = data.list[0].itemGroupID
+    }
+  }).catch((res) => {
+    if (res.code === 1000) {
+      ms.message.error(t('popup.tokenInvalid'))
+      return
+    }
+    ms.message.error(`${t('popup.tokenInvalid')}-2000`)
+  })
+}
+
 function getIcoLinks(html: string): string[] {
   const $ = cheerio.load(html)
   const icoTags = $('link[rel="shortcut icon"], link[rel="icon"]')
@@ -107,8 +145,13 @@ function getIcoLinks(html: string): string[] {
   icoTags.each((index, element) => {
     const tag = $(element)
     const href = tag.attr('href')
+
     if (href) {
-      console.log(href)
+      // 检查是否重复
+      if (links.includes(href))
+        return
+
+      // console.log(href)
       links.push(href)
     }
   })
@@ -182,12 +225,6 @@ function handleSelectIcon(icon: ImageListItem) {
   }
 }
 
-function removeTrailingSlash(str: string) {
-  if (!str)
-    return str // 如果字符串为空或未定义，直接返回
-  return str.replace(/\/+$/, '')
-}
-
 async function submit() {
   // 没有找到图标使用默认图标
   const url = `${removeTrailingSlash(openApiConfig.value.host)}/item/create`
@@ -197,7 +234,7 @@ async function submit() {
     headers: { token: openApiConfig.value.token },
     data: formValue.value,
   }).then(() => {
-    ms.message.success(t('common.save'))
+    ms.message.success(t('common.saveSuccess'))
     isSaveSuccess.value = true // 保存成功禁止再次保存
   }).catch((res) => {
     if (res.code === 1000) {
@@ -223,12 +260,21 @@ function handleSave(e: MouseEvent) {
   })
 }
 
-onMounted(() => {
-  storage.getItem<OpenAPIConfig>('local:openAPIConfig').then((cfg) => {
+onMounted(async () => {
+  await storage.getItem<OpenAPIConfig>('local:openAPIConfig').then((cfg) => {
     if (cfg) {
       openApiConfig.value = cfg as OpenAPIConfig
     }
   })
+
+  // console.log(openApiConfig.value.host)
+  getSunPanelVersion<SunPanelVersion.Info>().then(({ data }) => {
+    sunPanelVersion.value = data.version
+    if (supportedSunPanelVersion('1.7.0', data.version)) {
+      getItemGroupList()
+    }
+  })
+
   getIconAndUrl()
 })
 </script>
@@ -263,26 +309,72 @@ onMounted(() => {
 
   <NCard style="border-radius: 1rem;margin-bottom: 20px;" size="small" embedded>
     <NForm ref="formRef" :label-width="80" :model="formValue" :rules="rules" size="small">
+      <NFormItem path="itemGroupID">
+        <template #label>
+          <NFlex>
+            {{ t('popup.itemGroup') }}
+            <STip
+              v-if="sunPanelVersion === '' || !supportedSunPanelVersion('1.7.0', sunPanelVersion)"
+              class="flex items-center text-sm text-orange-600"
+            >
+              <div class="max-w-[200px]">
+                ({{ t('common.unSupportSunPanelVersionWarning', { version: "v1.7.0" }) }})
+                <br>
+                {{ t('popup.unSupportSunPanelVersionGroupWarning', { version: "v1.7.0" }) }}
+              </div>
+            </STip>
+          </NFlex>
+        </template>
+        <NSelect
+          v-model:value="formValue.itemGroupID"
+          :disabled="sunPanelVersion === '' || !supportedSunPanelVersion('1.7.0', sunPanelVersion)"
+          :options="itemGroupList" label-field="title" value-field="itemGroupID"
+        />
+      </NFormItem>
+
       <NFormItem path="iconUrl">
         <template #label>
           <div class="flex items-center">
             {{ t('popup.iconObtained') }}
-            <STip class="ml-2 flex items-center text-sm">
-              <div class="max-w-[200px]">
-                {{ t('popup.getIconUrlText') }}
-              </div>
-            </STip>
           </div>
         </template>
-        <NImage
-          v-for="icon, index in webSiteIcons"
-          :key="index" preview-disabled
-          :src="icon.iconUrl"
-          class="cursor-pointer"
-          style="width: 50px;height: 50px;border-radius: 5px;margin-right: 10px;padding:2px;box-shadow:  0px 0px 5px gray;"
-          :style="icon.checked ? 'border:2px #4EB4BC solid;' : 'border:1px #C1C6CC solid;'"
-          @click="handleSelectIcon(icon)"
-        />
+        <div>
+          <div>
+            <NImage
+              v-for="icon, index in webSiteIcons" :key="index" preview-disabled :src="icon.iconUrl"
+              class="cursor-pointer"
+              style="width: 50px;height: 50px;border-radius: 5px;margin-right: 10px;padding:2px;box-shadow:  0px 0px 5px gray;"
+              :style="icon.checked ? 'border:2px #4EB4BC solid;' : 'border:1px #C1C6CC solid;'"
+              @click="handleSelectIcon(icon)"
+            />
+          </div>
+          <div class="mt-2">
+            <NCheckbox
+              v-model:checked="formValue.isSaveIcon"
+              :disabled="sunPanelVersion === '' || !supportedSunPanelVersion('1.7.0', sunPanelVersion)"
+            >
+              <NFlex :gap="2">
+                {{ t('popup.saveIcon') }}
+                <STip class="flex items-center text-sm ">
+                  <div class="max-w-[200px]">
+                    {{ t('popup.saveIconFileText', { version: "v1.7.0" }) }}
+                  </div>
+                </STip>
+
+                <STip
+                  v-if="sunPanelVersion === '' || !supportedSunPanelVersion('1.7.0', sunPanelVersion)"
+                  class="flex items-center text-sm text-orange-600"
+                >
+                  <div class="max-w-[200px]">
+                    ({{ t('common.unSupportSunPanelVersionWarning', { version: "v1.7.0" }) }})
+                    <br>
+                    {{ t('popup.unSupportSunPanelVersionSaveIconWarning', { version: "v1.7.0" }) }}
+                  </div>
+                </STip>
+              </NFlex>
+            </NCheckbox>
+          </div>
+        </div>
       </NFormItem>
 
       <NFormItem :label="t('common.title')" path="title">
@@ -293,10 +385,13 @@ onMounted(() => {
       </NFormItem>
 
       <NFormItem :label="t('common.description')" path="description">
-        <NInput v-model:value="formValue.description" :disabled="openApiConfig.host === '' || openApiConfig.token === ''" />
+        <NInput
+          v-model:value="formValue.description"
+          :disabled="openApiConfig.host === '' || openApiConfig.token === ''"
+        />
       </NFormItem>
 
-      <NFormItem :label="t('common.address')" path="url">
+      <NFormItem :label="t('common.defaultAddress')" path="url">
         <NInput v-model:value="formValue.url" :disabled="openApiConfig.host === '' || openApiConfig.token === ''" />
       </NFormItem>
 
@@ -305,11 +400,8 @@ onMounted(() => {
       </NFormItem>
 
       <NButton
-        size="small"
-        type="success"
-        style="width: 100%;"
-        :disabled="isSaveSuccess || openApiConfig.host === '' || openApiConfig.token === ''"
-        :loading="isSumitLoading"
+        size="small" type="success" style="width: 100%;"
+        :disabled="isSaveSuccess || openApiConfig.host === '' || openApiConfig.token === ''" :loading="isSumitLoading"
         @click="handleSave"
       >
         {{ t('common.save') }}

@@ -63,10 +63,14 @@
     "warning": "Warning",
     "yes": "Yes",
     "settings": "Setting",
-    "address": "Address",
     "newTab": "New tab",
     "enable": "Enable",
-    "disable": "Disable"
+    "disable": "Disable",
+    "defaultAddress": "Default address",
+    "urlAddress": "URL",
+    "connectionTest": "Connection test",
+    "connectionTestFail": "The connection test failed. Possible reasons: The URL address or Token was incorrectly filled in. \nIf the Sun-Panel version is lower than v1.7.0, test connection is not supported, but other functions can be used normally.",
+    "unSupportSunPanelVersionWarning": "Requires Sun-Panel to be {version} and above"
   },
   "form": {
     "required": "Required field",
@@ -82,7 +86,8 @@
     "homePageUrlNote": "When you click the new tab page, it will automatically jump to the home page address. The primary address will be used first. If the link to the primary address is unavailable, the backup address will be used. \nWhen you have both intranet and public network addresses, it is recommended that the main address be filled in as the intranet address.",
     "openAPINote": "Requires Sun-Panel version in {version}",
     "homePageInIframe": "Open the homepage in an inline frame (fast)",
-    "guideOpenAPI": "Through System Application Launcher -> OpenAPI -> Enable, you can view the address and Token. If the address only contains the domain name, you need to add the path (path example: /openapi/v1)."
+    "guideOpenAPI": "Through System Application Launcher -> OpenAPI -> Enable, you can view the address and Token. If the address only contains the domain name, you need to add the path (path example: /openapi/v1).",
+    "connectionTestSuccess": "The test passed. The current self-hosted Sun-Panel version number is: {version}, and the version serial number is: {versionCode}"
   },
   "homePage": {
     "noSetHomePageUrl": "The homepage address has not been set yet, please click to go to settings."
@@ -95,8 +100,12 @@
     "addCurrentSiteToSunPanel": "Add this site to Sun-Panel",
     "lanAddress": "LAN address",
     "iconObtained": "Obtained icons",
-    "getIconUrlText": "Currently, downloading online icons or uploading icon files to Sun Panel is not supported, only the online icon file address can be saved",
-    "functionDescription": "You can quickly save the currently visited website as an icon card group in the Sun Panel project that you have built yourself through this feature. Currently, it only supports saving to the first sorted group"
+    "functionDescription": "You can use this function to quickly save the information of the currently visited website into the icon card group of your self-hosted Sun-Panel project.",
+    "itemGroup": "Group",
+    "saveIcon": "Also save the icon file",
+    "unSupportSunPanelVersionGroupWarning": "Currently, it will be saved to the first group by default.",
+    "unSupportSunPanelVersionSaveIconWarning": "The online URL to the icon is currently saved",
+    "saveIconFileText": "The icon file will be saved in the self-hosted project, and the local image link of the project will be used, which can be viewed in the uploaded file management."
   },
   "setting": {
     "homePageInIframeTip": "Turning on this function will open the homepage you set in a built-in frame (iframe). Turning it on can effectively improve the page opening speed. \nPlease note that because some websites have disabled built-in frame access, if your Sun-Panel card has an opening mode set to 'Open the current page', it will be inaccessible. At this time, you can set it to open in a new window or disable this \nFunction."
