@@ -1,3 +1,5 @@
+import { removeTrailingSlash } from '@/util/cmn'
+
 interface RequestParam {
   url: string
   headers?: HeadersInit
@@ -9,6 +11,22 @@ interface PostResponse<T> {
   headers?: HeadersInit
   data: T
 }
+
+interface OpenAPIConfig {
+  host: string
+  token: string
+}
+
+let openApiConfig: OpenAPIConfig = {
+  host: '',
+  token: '',
+}
+
+storage.getItem<OpenAPIConfig>('local:openAPIConfig').then((cfg) => {
+  if (cfg) {
+    openApiConfig = cfg as OpenAPIConfig
+  }
+})
 
 // async function httpPost({ url, headers = {}, data }: PostRequestParam) {
 //   return await fetch(url, {
@@ -40,4 +58,10 @@ export async function postRequest<T>({ url, headers = {}, data }: RequestParam):
   }
 
   return jsonResponse
+}
+
+export async function postOpenApiRequest<T>({ url, headers = {}, data }: RequestParam): Promise<PostResponse<T>> {
+  (headers as Record<string, string>).token = openApiConfig.token
+  url = removeTrailingSlash(openApiConfig.host) + url
+  return postRequest<T>({ url, headers, data })
 }
