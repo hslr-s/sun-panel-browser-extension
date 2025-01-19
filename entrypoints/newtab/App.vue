@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
-import { NButton, NCard, NConfigProvider } from 'naive-ui'
+import { NButton, NCard, NConfigProvider, NFloatButton } from 'naive-ui'
+import FloatToolBar from './FloatToolBar.vue'
 import backgroundImg from '@/assets/defaultBackground.webp'
 import { useLanguage } from '@/hooks/useLanguage'
 import { push as statisticsPush } from '@/util/statistics'
@@ -135,10 +136,8 @@ function handleGoSettingPage() {
     <div class="background h-full" :style="{ backgroundImage: `url(${backgroundImg})` }">
       <!-- <div v-if="homePageUrl !== '' && homePageConfig.homePageInIframe"> -->
       <iframe
-        v-if="homePageUrl !== '' && homePageConfig.homePageInIframe"
-        id="iframe-sun-panel" class="fade-in-animation"
-        :src="homePageUrl" frameborder="0"
-        height="100%" width="100%"
+        v-if="homePageUrl !== '' && homePageConfig.homePageInIframe" id="iframe-sun-panel"
+        class="fade-in-animation" :src="homePageUrl" frameborder="0" height="100%" width="100%"
       />
       <!-- </div> -->
       <div v-if="!isSetHomePageUrl">
@@ -152,6 +151,9 @@ function handleGoSettingPage() {
           </NCard>
         </div>
       </div>
+    </div>
+    <div class="float-toolbar">
+      <FloatToolBar :current-url="homePageUrl" :home-page-config="homePageConfig" />
     </div>
   </NConfigProvider>
 </template>
