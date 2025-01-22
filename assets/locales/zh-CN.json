@@ -91,7 +91,9 @@
     "connectionTestSuccess": "测试通过，当前自托管的 Sun-Panel 版本号为：{version}，版本序号为：{versionCode}"
   },
   "homePage": {
-    "noSetHomePageUrl": "还未设置首页地址，请点击前往设置"
+    "noSetHomePageUrl": "还未设置首页地址，请点击前往设置",
+    "currentSpareUrlAddress": "当前为备用地址",
+    "currentUrlAddress": "当前为主要地址"
   },
   "popup": {
     "noSetOpenAPIUrl": "请先配置OpenAPI参数，再尝试添加",

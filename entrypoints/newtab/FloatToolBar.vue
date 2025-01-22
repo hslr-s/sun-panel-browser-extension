@@ -9,9 +9,11 @@ const props = defineProps<{
   homePageConfig: BaseType.HomePageConfig
 }>()
 
+const { t } = useI18n()
+
 const urlStatusToolTipShow = ref(false)
 const urlStatusToolTipMsg = ref('')
-const infoTipText = ref('由 [Sun-Panel BE] 提供')
+const infoTipText = ref('By [Sun-Panel BE]')
 
 // 添加: 监听 currentUrl 变化
 watch(
@@ -35,10 +37,10 @@ const tooltipManualShow = ref(false)
 function init(newUrl: string) {
   if (props.homePageConfig.spareUrl !== '' && props.homePageConfig.url !== '') {
     if (props.homePageConfig.spareUrl === newUrl) {
-      updateStatusToolTip(true, '当前为备用地址')
+      updateStatusToolTip(true, t('homePage.currentSpareUrlAddress'))
     }
     if (props.homePageConfig.url === newUrl) {
-      updateStatusToolTip(true, '当前为主要地址')
+      updateStatusToolTip(true, t('homePage.currentUrlAddress'))
     }
   }
   setTimeout(() => {

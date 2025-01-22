@@ -90,7 +90,9 @@
     "connectionTestSuccess": "The test passed. The current self-hosted Sun-Panel version number is: {version}, and the version serial number is: {versionCode}"
   },
   "homePage": {
-    "noSetHomePageUrl": "The homepage address has not been set yet, please click to go to settings."
+    "noSetHomePageUrl": "The homepage address has not been set yet, please click to go to settings.",
+    "currentSpareUrlAddress": "Currently the alternate address",
+    "currentUrlAddress": "Currently the main address"
   },
   "popup": {
     "noSetOpenAPIUrl": "Please configure OpenAPI parameters first, and then try to add",
