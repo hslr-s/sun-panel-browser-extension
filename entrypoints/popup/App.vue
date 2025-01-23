@@ -33,22 +33,20 @@ function handleUpdateLog() {
   browser.tabs.create({ url })
 }
 
-const version_name = browser.runtime.getManifest().version_name
+const version_name = ref(browser.runtime.getManifest().version_name || browser.runtime.getManifest().version)
 const appName = browser.runtime.getManifest().name
 </script>
 
 <template>
-  <NConfigProvider
-    :theme-overrides="themeOverrides"
-    :locale="language"
-  >
+  <NConfigProvider :theme-overrides="themeOverrides" :locale="language">
     <div class="root">
       <div class="header flex items-center">
-        <div class="text-[#fff] text-xl font-bold">
-          {{ appName }}
+        <div class="text-[#fff]">
+          <span class="text-xl font-bold">
+            {{ appName }}
+          </span>
           <span
-            class="text-sm cursor-pointer text-[#00eafd] hover:text-[#000]"
-            :title="t('popup.uploadLog')"
+            class="text-sm cursor-pointer text-[#00eafd] hover:text-[#000]" :title="t('popup.uploadLog')"
             @click="handleUpdateLog"
           >
             (v{{ version_name }})

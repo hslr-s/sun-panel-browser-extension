@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { NButton, NFlex, NImage, NTooltip } from 'naive-ui'
-import { InformationCircleOutline, OpenOutline, Refresh } from '@vicons/ionicons5'
+import { InformationCircleOutline, OpenOutline, Refresh, SettingsSharp as SettingsIcon } from '@vicons/ionicons5'
 
 // 添加: 定义 currentUrl prop
 const props = defineProps<{
@@ -69,6 +69,10 @@ function handleSwitchTooltipShow(event: MouseEvent) {
   tooltipManualShow.value = !tooltipManualShow.value
 }
 
+function handleSetting() {
+  browser.tabs.create({ url: 'settings.html' })
+}
+
 function handleNewTabOpen() {
   browser.tabs.create({ url: props.currentUrl })
 }
@@ -115,6 +119,11 @@ onMounted(() => {
               <NButton size="tiny" type="primary" ghost @click="handleNewTabOpen">
                 <template #icon>
                   <OpenOutline />
+                </template>
+              </NButton>
+              <NButton size="tiny" type="primary" ghost @click="handleSetting">
+                <template #icon>
+                  <SettingsIcon />
                 </template>
               </NButton>
 
