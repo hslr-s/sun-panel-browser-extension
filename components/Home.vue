@@ -241,7 +241,7 @@ async function submit() {
       ms.message.error(t('popup.tokenInvalid'))
       return
     }
-    ms.message.error(`${t('popup.tokenInvalid')}-2000`)
+    ms.message.error(`error: ${res.msg}`)
   })
 
   isSumitLoading.value = false
